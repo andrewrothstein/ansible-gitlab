@@ -1,0 +1,22 @@
+---
+- name: deps...
+  apt: name={{item}} state=latest
+  with_items:
+    - curl
+    - openssh-server
+    - ca-certificates
+    - postfix
+
+- name: get bootstrap script...
+  get_url: >-
+    url={{gitlab_script_rpm}}
+    dest=/tmp/gitlab-omnibus-bootstrap.sh
+    mode=0755
+    owner=root
+    group=root
+
+- name: running bootstrap script...
+  command: /tmp/gitlab-omnibus-bootstrap.sh
+
+- name: installing gitlab-ce
+  apt: name=gitlab-ce state=latest

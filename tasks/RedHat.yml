@@ -1,0 +1,28 @@
+---
+- name: deps...
+  yum: name={{item}} state=latest
+  with_items:
+    - curl
+    - openssh-server
+    - postfix
+
+- name: launch dep services...
+  service: name={{item}} enabled=yes state=started
+  with_items:
+    - sshd
+    - postfix
+
+- name: get bootstrap script...
+  get_url: >-
+    url={{gitlab_script_rpm}}
+    dest=/tmp/gitlab-omnibus-bootstrap.sh
+    mode=0755
+    owner=root
+    group=root
+
+- name: running bootstrap script....
+  command: /tmp/gitlab-omnibus-bootstrap.sh
+
+- name: installing gitlab-ce
+  yum: name=gitlab-ce state=latest
+  

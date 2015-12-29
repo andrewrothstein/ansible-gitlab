@@ -1,0 +1,10 @@
+---
+# tasks file for gitlab
+- name: RedHat install...
+  when: ansible_os_family == 'RedHat'
+  include: RedHat.yml
+
+- name: Debian install...
+  when: ansible_os_family == 'Debian'
+  
+  

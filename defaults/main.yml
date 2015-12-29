@@ -1,0 +1,5 @@
+---
+# defaults file for gitlab
+gitlab_ce_ver : '8.3.2-ce.0'
+
+gitlab_pkg_mirror : 'https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce'
