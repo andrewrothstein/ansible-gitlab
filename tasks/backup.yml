@@ -1,0 +1,3 @@
+---
+- name: generate backup...
+  command: gitlab-rake gitlab:backup:create

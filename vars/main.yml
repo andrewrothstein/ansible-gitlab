@@ -4,3 +4,5 @@ gitlab_ce_pkg_mirror : '{{gitlab_pkg_mirror}}/gitlab-ce'
 
 gitlab_script_deb : '{{gitlab_ce_pkg_mirror}}/script.deb.sh'
 gitlab_script_rpm : '{{gitlab_ce_pkg_mirror}}/script.rpm.sh'
+
+gitlab_data_tar : '{{gitlab_ts}}_gitlab_backup.tar'
