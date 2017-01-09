@@ -1,0 +1,7 @@
+---
+gitlab_script : '{{gitlab_ce_mirror}}/script.rpm.sh'
+gitlab_os_dep_pkgs:
+  - curl
+  - openssh-server
+  - postfix
+

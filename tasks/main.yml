@@ -1,20 +1,35 @@
 ---
-- name: RedHat install...
-  when: gitlab_install and ansible_os_family == 'RedHat'
-  include: RedHat.yml
+- name: resolve platform specific vars
+  include_vars: "{{item}}"
+  with_first_found:
+    - "{{ansible_distribution}}-{{ansible_distribution_release}}.yml"
+    - "{{ansible_distribution}}.yml"
+    - "{{ansible_os_family}}.yml"
+    
+- name: install pkg deps...
+  become: yes
+  become_user: root
+  with_items: '{{gitlab_os_dep_pkgs}}'
+  package: name={{item}} state=present
 
-- name: Debian install...
-  when: gitlab_install and ansible_os_family == 'Debian'
-  include: Debian.yml
+- name: get bootstrap script...
+  become: yes
+  become_user: root
+  get_url: >-
+    url={{gitlab_script}}
+    dest=/tmp/gitlab-omnibus-bootstrap.sh
+    mode=0755
 
-- name: restoring...
-  when: gitlab_restore and gitlab_restore_ts is defined
-  include: restore.yml
-  
-- name: backing up...
-  when: gitlab_backup
-  include: backup.yml
+- name: run bootstrap...
+  become: yes
+  become_user: root
+  command: /tmp/gitlab-omnibus-bootstrap.sh
+  args:
+    creates: /usr/local/bin/gitlab-ctl
 
-- name: vaulting...
-  when: gitlab_vault
-  include: vault.yml
+- name: install pkg
+  become: yes
+  become_user: root
+  with_items:
+    - gitlab-ce
+  package: name={{item}} state=present
