@@ -25,7 +25,7 @@
   become_user: root
   command: /tmp/gitlab-omnibus-bootstrap.sh
   args:
-    creates: /usr/local/bin/gitlab-ctl
+    creates: /opt/gitlab/bin/gitlab-ctl
 
 - name: install pkg
   become: yes
