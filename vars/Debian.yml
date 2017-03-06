@@ -1,5 +1,5 @@
 ---
-gitlab_script : '{{gitlab_ce_pkg_mirror}}/script.deb.sh'
+gitlab_script : '{{gitlab_ce_mirror}}/script.deb.sh'
 gitlab_os_dep_pkgs:
   - curl
   - openssh-server
