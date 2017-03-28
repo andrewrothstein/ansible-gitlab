@@ -10,15 +10,17 @@
   become: yes
   become_user: root
   with_items: '{{gitlab_os_dep_pkgs}}'
-  package: name={{item}} state=present
+  package:
+    name: '{{item}}'
+    state: present
 
 - name: get bootstrap script...
   become: yes
   become_user: root
-  get_url: >-
-    url={{gitlab_script}}
-    dest=/tmp/gitlab-omnibus-bootstrap.sh
-    mode=0755
+  get_url:
+    url: '{{gitlab_script}}'
+    dest: /tmp/gitlab-omnibus-bootstrap.sh
+    mode: 0755
 
 - name: run bootstrap...
   become: yes
@@ -32,4 +34,6 @@
   become_user: root
   with_items:
     - gitlab-ce
-  package: name={{item}} state=present
+  package:
+    name: '{{item}}'
+    state: present

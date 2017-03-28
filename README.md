@@ -25,6 +25,7 @@ Example Playbook
 - hosts: servers
   roles:
     - andrewrothstein.gitlab
+```
 
 License
 -------
