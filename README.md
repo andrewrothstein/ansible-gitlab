@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/andrewrothstein/ansible-gitlab.svg?style=svg)](https://circleci.com/gh/andrewrothstein/ansible-gitlab)
 andrewrothstein.gitlab
 =========
 
