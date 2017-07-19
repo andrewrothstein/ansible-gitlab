@@ -1,6 +1,6 @@
-[![CircleCI](https://circleci.com/gh/andrewrothstein/ansible-gitlab.svg?style=svg)](https://circleci.com/gh/andrewrothstein/ansible-gitlab)
 andrewrothstein.gitlab
 =========
+[![Build Status](https://travis-ci.org/andrewrothstein/ansible-gitlab.svg?branch=master)](https://travis-ci.org/andrewrothstein/ansible-gitlab)
 
 Installs [Gitlab](https://gitlab.com/users/sign_in)
 
