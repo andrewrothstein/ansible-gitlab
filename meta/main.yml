@@ -24,5 +24,9 @@ galaxy_info:
     - vcs
     - scm
 
-dependencies: []
+dependencies:
+  - src: andrewrothstein.curl
+    version: v1.0.3
+  - src: andrewrothstein.ca-certs
+    version: v1.0.1
   

@@ -1,10 +1,14 @@
 ---
 - name: resolve platform specific vars
-  include_vars: "{{item}}"
+  include_vars: '{{item}}'
   with_first_found:
-    - "{{ansible_distribution}}-{{ansible_distribution_release}}.yml"
-    - "{{ansible_distribution}}.yml"
-    - "{{ansible_os_family}}.yml"
+    - files:
+        - '{{ansible_distribution}}-{{ansible_distribution_release}}.yml'
+        - '{{ansible_distribution}}.yml'
+        - '{{ansible_os_family}}.yml'
+      skip: true
+      paths:
+        - '{{role_path}}/vars'
     
 - name: install pkg deps...
   become: yes
@@ -14,26 +18,12 @@
     name: '{{item}}'
     state: present
 
-- name: get bootstrap script...
+- name: download pkg...
   become: yes
   become_user: root
   get_url:
-    url: '{{gitlab_script}}'
-    dest: /tmp/gitlab-omnibus-bootstrap.sh
-    mode: 0755
+    url: '{{gitlab_pkg_url}}'
+    dest: /tmp/{{gitlab_pkg}}
+    mode: 0700
 
-- name: run bootstrap...
-  become: yes
-  become_user: root
-  command: /tmp/gitlab-omnibus-bootstrap.sh
-  args:
-    creates: /opt/gitlab/bin/gitlab-ctl
-
-- name: install pkg
-  become: yes
-  become_user: root
-  with_items:
-    - gitlab-ce
-  package:
-    name: '{{item}}'
-    state: present
+- include_tasks: '{{gitlab_pkg_ty}}.yml'

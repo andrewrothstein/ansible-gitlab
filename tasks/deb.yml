@@ -1,0 +1,14 @@
+---
+- name: add APT key...
+  beome: yes
+  become_user: root
+  apt_key:
+    url: '{{gitlab_key_url}}'
+    state: present
+
+- name: install pkg...
+  become: yes
+  become_user: root
+  apt:
+    deb: /tmp/{{gitlab_pkg}}
+

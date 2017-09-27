@@ -1,3 +1,9 @@
 ---
-gitlab_mirror : https://packages.gitlab.com/install/repositories/gitlab
-gitlab_ce_mirror : '{{gitlab_mirror}}/gitlab-ce'
+gitlab_mirror : https://packages.gitlab.com
+gitlab_ver: '10.0.1'
+gitlab_dist: ce
+gitlab_key_url: https://packages.gitlab.com/gpg.key
+
+gitlab_os_dep_pkgs:
+  - openssh-server
+  - postfix

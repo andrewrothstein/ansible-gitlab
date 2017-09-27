@@ -19,6 +19,7 @@ branches:
 env:
   - OS=centos_7
   - OS=debian_jessie
+  - OS=debian_stretch
   - OS=ubuntu_trusty
   - OS=ubuntu_xenial
 
