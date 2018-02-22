@@ -1,6 +1,6 @@
 ---
 gitlab_mirror : https://packages.gitlab.com
-gitlab_ver: '10.2.3'
+gitlab_ver: '10.4.0'
 gitlab_dist: ce
 gitlab_key_url: https://packages.gitlab.com/gpg.key
 
