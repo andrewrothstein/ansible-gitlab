@@ -1,0 +1,8 @@
+---
+- include_tasks: add_rpm_key.yml
+- name: install rpm...
+  become: yes
+  become_user: root
+  dnf:
+    name: /tmp/{{gitlab_pkg}}
+    state: present

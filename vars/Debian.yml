@@ -1,5 +1,0 @@
----
-gitlab_pkg_ty: deb
-gitlab_platform: amd64
-gitlab_pkg: gitlab-{{gitlab_dist}}_{{gitlab_ver}}-{{gitlab_dist}}.0_{{gitlab_platform}}.{{gitlab_pkg_ty}}
-gitlab_pkg_url: '{{gitlab_mirror}}/gitlab/gitlab-{{gitlab_dist}}/packages/{{ansible_distribution|lower}}/{{ansible_distribution_release|lower}}/{{gitlab_pkg}}/download'

@@ -1,6 +1,0 @@
----
-gitlab_pkg_ty: rpm
-gitlab_el_ver: '{{ansible_distribution_major_version}}'
-gitlab_platform: x86_64
-gitlab_pkg: gitlab-{{gitlab_dist}}-{{gitlab_ver}}-{{gitlab_dist}}.0.el{{gitlab_el_ver}}.{{gitlab_platform}}.{{gitlab_pkg_ty}}
-gitlab_pkg_url: '{{gitlab_mirror}}/gitlab/gitlab-{{gitlab_dist}}/packages/el/{{gitlab_el_ver}}/{{gitlab_pkg}}/download'

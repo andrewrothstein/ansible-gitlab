@@ -3,10 +3,7 @@
   include_vars: '{{item}}'
   with_first_found:
     - files:
-        - '{{ansible_distribution}}-{{ansible_distribution_release}}.yml'
-        - '{{ansible_distribution}}.yml'
-        - '{{ansible_os_family}}.yml'
-      skip: true
+        - '{{ansible_pkg_mgr}}.yml'
       paths:
         - '{{role_path}}/vars'
     
@@ -25,5 +22,6 @@
     url: '{{gitlab_pkg_url}}'
     dest: /tmp/{{gitlab_pkg}}
     mode: 0700
+    timeout: '{{gitlab_download_timeout_seconds}}'
 
-- include_tasks: '{{gitlab_pkg_ty}}.yml'
+- include_tasks: '{{ansible_pkg_mgr}}.yml'

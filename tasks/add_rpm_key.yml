@@ -1,0 +1,7 @@
+---
+- name: add RPM key...
+  become: yes
+  become_user: root
+  rpm_key:
+    key: '{{gitlab_key_url}}'
+    state: present

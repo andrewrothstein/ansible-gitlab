@@ -11,4 +11,3 @@
   become_user: root
   apt:
     deb: /tmp/{{gitlab_pkg}}
-

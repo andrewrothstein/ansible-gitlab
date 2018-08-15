@@ -1,9 +1,11 @@
 ---
 gitlab_mirror : https://packages.gitlab.com
-gitlab_ver: '10.6.0'
+gitlab_ver: '11.1.4'
 gitlab_dist: ce
 gitlab_key_url: https://packages.gitlab.com/gpg.key
 
 gitlab_os_dep_pkgs:
   - openssh-server
   - postfix
+
+gitlab_download_timeout_seconds: 600
