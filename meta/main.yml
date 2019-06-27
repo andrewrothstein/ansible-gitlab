@@ -12,11 +12,19 @@ galaxy_info:
         - 7
     - name: Ubuntu
       versions:
-        - trusty
+        - bionic
         - xenial
     - name: Debian
       versions:
         - jessie
+        - stretch
+    - name: Fedora
+      versions:
+        - 26
+        - 27
+        - 28
+        - 29
+        - 30
 
   galaxy_tags:
     - git
