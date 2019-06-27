@@ -1,6 +1,6 @@
 ---
 - name: add APT key...
-  beome: yes
+  become: yes
   become_user: root
   apt_key:
     url: '{{gitlab_key_url}}'
