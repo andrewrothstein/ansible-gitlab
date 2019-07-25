@@ -3,11 +3,11 @@
   become: yes
   become_user: root
   apt_key:
-    url: '{{gitlab_key_url}}'
+    url: '{{ gitlab_key_url }}'
     state: present
 
 - name: install pkg...
   become: yes
   become_user: root
   apt:
-    deb: /tmp/{{gitlab_pkg}}
+    deb: /tmp/{{ gitlab_pkg }}

@@ -4,5 +4,5 @@
   become: yes
   become_user: root
   yum:
-    name: /tmp/{{gitlab_pkg}}
+    name: /tmp/{{ gitlab_pkg }}
     state: present

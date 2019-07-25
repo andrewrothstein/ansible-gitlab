@@ -1,27 +1,27 @@
 ---
 - name: resolve platform specific vars
-  include_vars: '{{item}}'
+  include_vars: '{{ item }}'
   with_first_found:
     - files:
-        - '{{ansible_pkg_mgr}}.yml'
+        - '{{ ansible_pkg_mgr }}.yml'
       paths:
-        - '{{role_path}}/vars'
-    
+        - '{{ role_path }}/vars'
+
 - name: install pkg deps...
   become: yes
   become_user: root
-  with_items: '{{gitlab_os_dep_pkgs}}'
+  with_items: '{{ gitlab_os_dep_pkgs }}'
   package:
-    name: '{{item}}'
+    name: '{{ item }}'
     state: present
 
 - name: download pkg...
   become: yes
   become_user: root
   get_url:
-    url: '{{gitlab_pkg_url}}'
-    dest: /tmp/{{gitlab_pkg}}
+    url: '{{ gitlab_pkg_url }}'
+    dest: /tmp/{{ gitlab_pkg }}
     mode: 0700
-    timeout: '{{gitlab_download_timeout_seconds}}'
+    timeout: '{{ gitlab_download_timeout_seconds }}'
 
-- include_tasks: '{{ansible_pkg_mgr}}.yml'
+- include_tasks: '{{ ansible_pkg_mgr }}.yml'
