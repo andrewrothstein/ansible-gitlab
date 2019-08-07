@@ -8,7 +8,6 @@ branches:
 dist: xenial
 env:
 - OS=centos_7
-- OS=debian_buster
 - OS=debian_jessie
 - OS=debian_stretch
 - OS=fedora_26
