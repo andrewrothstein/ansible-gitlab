@@ -33,7 +33,7 @@ galaxy_info:
     - scm
 
 dependencies:
-  - src: andrewrothstein.curl
+  - role: andrewrothstein.curl
+    version: v1.0.6
+  - role: andrewrothstein.ca-certs
     version: v1.0.3
-  - src: andrewrothstein.ca-certs
-    version: v1.0.1
