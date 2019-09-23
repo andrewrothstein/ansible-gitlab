@@ -37,3 +37,5 @@ dependencies:
     version: v1.0.6
   - role: andrewrothstein.ca-certs
     version: v1.0.3
+  - role: andrewrothstein.gpg
+    version: v1.0.6
