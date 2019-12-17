@@ -16,16 +16,9 @@ galaxy_info:
         - xenial
     - name: Debian
       versions:
+        - buster
         - jessie
         - stretch
-    - name: Fedora
-      versions:
-        - 26
-        - 27
-        - 28
-        - 29
-        - 30
-
   galaxy_tags:
     - git
     - gitlab
@@ -34,8 +27,8 @@ galaxy_info:
 
 dependencies:
   - role: andrewrothstein.curl
-    version: v1.0.6
+    version: v1.0.7
   - role: andrewrothstein.ca-certs
     version: v1.0.3
   - role: andrewrothstein.gpg
-    version: v1.0.6
+    version: v1.0.7

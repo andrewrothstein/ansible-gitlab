@@ -1,8 +1,9 @@
 ---
 # https://packages.gitlab.com/gitlab/
 gitlab_mirror: https://packages.gitlab.com
-gitlab_ver: '12.4.0'
+gitlab_ver: '12.5.5'
 gitlab_dist: ce
+
 gitlab_key_url: https://packages.gitlab.com/gpg.key
 
 gitlab_os_dep_pkgs:

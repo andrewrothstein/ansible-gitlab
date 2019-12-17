@@ -10,7 +10,7 @@
 - name: install pkg deps...
   become: yes
   become_user: root
-  with_items: '{{ gitlab_os_dep_pkgs }}'
+  with_items: '{{ gitlab_os_dep_pkgs | default([]) }}'
   package:
     name: '{{ item }}'
     state: present
