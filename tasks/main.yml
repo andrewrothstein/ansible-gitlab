@@ -15,13 +15,20 @@
     name: '{{ item }}'
     state: present
 
-- name: download pkg...
-  become: yes
-  become_user: root
-  get_url:
-    url: '{{ gitlab_pkg_url }}'
-    dest: /tmp/{{ gitlab_pkg }}
-    mode: 0700
-    timeout: '{{ gitlab_download_timeout_seconds }}'
-
-- include_tasks: '{{ ansible_pkg_mgr }}.yml'
+- block:
+    - name: download pkg...
+      become: yes
+      become_user: root
+      get_url:
+        url: '{{ gitlab_pkg_url }}'
+        dest: /tmp/{{ gitlab_pkg }}
+        mode: 0700
+        timeout: '{{ gitlab_download_timeout_seconds }}'
+    - include_tasks: '{{ ansible_pkg_mgr }}.yml'
+  always:
+    - name: cleanup...
+      become: yes
+      become_user: root
+      file:
+        path: /tmp/{{ gitlab_pkg }}
+        state: absent
