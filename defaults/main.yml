@@ -5,7 +5,9 @@ gitlab_ver: 12.9.1
 
 gitlab_dist: ce
 
-gitlab_key_url: https://packages.gitlab.com/gpg.key
+gitlab_key_urls:
+  - https://packages.gitlab.com/gpg.key
+  - https://gitlab-org.gitlab.io/omnibus-gitlab/gitlab_new_gpg.key
 
 gitlab_os_dep_pkgs:
   - openssh-server

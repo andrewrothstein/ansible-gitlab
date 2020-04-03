@@ -2,8 +2,9 @@
 - name: add APT key...
   become: yes
   become_user: root
+  with_items: '{{ gitlab_key_urls }}'
   apt_key:
-    url: '{{ gitlab_key_url }}'
+    url: '{{ item }}'
     state: present
 
 - name: install pkg...

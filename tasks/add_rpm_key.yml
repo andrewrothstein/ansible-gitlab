@@ -2,6 +2,7 @@
 - name: add RPM key...
   become: yes
   become_user: root
+  with_items: '{{ gitlab_key_urls }}'
   rpm_key:
-    key: '{{ gitlab_key_url }}'
+    key: '{{ item }}'
     state: present
