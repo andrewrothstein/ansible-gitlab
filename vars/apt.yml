@@ -1,7 +1,7 @@
 ---
 gitlab_pkg_ty: deb
 gitlab_platform: amd64
-gitlab_pkg: gitlab-{{ gitlab_dist }}_{{ gitlab_ver }}-{{ gitlab_dist }}.0_{{ gitlab_platform }}.{{ gitlab_pkg_ty }}
+gitlab_pkg: gitlab-{{ gitlab_dist }}_{{ gitlab_ver }}-{{ gitlab_dist }}.{{ gitlab_patch }}_{{ gitlab_platform }}.{{ gitlab_pkg_ty }}
 
 # for example....
 # https://packages.gitlab.com/gitlab/gitlab-ce/packages/ubuntu/bionic/gitlab-ce_11.1.4-ce.0_amd64.deb
