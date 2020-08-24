@@ -3,4 +3,5 @@
 - debian_buster
 - debian_stretch
 - ubuntu_bionic
+- ubuntu_focal
 - ubuntu_xenial
