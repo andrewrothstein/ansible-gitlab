@@ -774,7 +774,7 @@ EOS
 {% endif %}
 {% if 'registry_storage' in gitlab_config %}
 registry['storage'] = YAML.load <<-'EOS'
-{{ gitlab_config.storage | to_yaml }}
+{{ gitlab_config.registry_storage | to_yaml }}
 EOS
 {% endif %}
 {% if 'registry_notifications' in gitlab_config %}
@@ -1266,7 +1266,7 @@ redis[{{ k | to_json }}] = {{ v | to_json }}
 # redis['rename_commands'] = {
 #   'KEYS': ''
 #}
-{% if redis_rename_commands in gitlab_config %}
+{% if 'redis_rename_commands' in gitlab_config %}
 redis['rename_commands'] = {{ gitlab_config.redis_rename_commands | to_json }}
 {% endif %}
 
@@ -1423,7 +1423,7 @@ webserver[{{ k | to_json }}] = {{ v | to_json }}
 
 {% if 'nginx_proxy_set_headers' in gitlab_config %}
 nginx['proxy_set_headers'] = YAML.load <<-'EOS'
-{{ nginx_proxy_set_headers | to_yaml }}
+{{ gitlab_config.nginx_proxy_set_headers | to_yaml }}
 {% endif %}
 # nginx['proxy_set_headers'] = {
 #  "Host" => "$http_host_with_default",
@@ -1471,7 +1471,7 @@ nginx['proxy_set_headers'] = YAML.load <<-'EOS'
 # nginx['request_buffering_off_path_regex'] = "\.git/git-receive-pack$|\.git/info/refs?service=git-receive-pack$|\.git/gitlab-lfs/objects|\.git/info/lfs/objects/batch$"
 
 ### Nginx status
-{% if nginx_status in gitlab_config %}
+{% if 'nginx_status' in gitlab_config %}
 nginx['status'] = YAML.load <<-'EOS'
 {{ gitlab_config.nginx_status | to_yaml }}
 EOS
