@@ -46,12 +46,8 @@
   when: gitlab_config is defined
   become: yes
   become_user: root
-  with_items:
-    - f: gitlab.rb
-      d: /etc/gitlab
-      m: 0644
   template:
-    src: '{{ item.f }}.j2'
-    dest: '{{ item.d }}/{{ item.f }}'
-    mode: '{{ item.m }}'
+    src: gitlab.rb.j2
+    dest: /etc/gitlab/gitlab.rb
+    mode: 0644
   notify: gitlab_reconfigure

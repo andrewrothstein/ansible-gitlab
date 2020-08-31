@@ -26,7 +26,7 @@
 ##! On AWS EC2 instances, we also attempt to fetch the public hostname/IP
 ##! address from AWS. For more details, see:
 ##! https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html
-external_url {{ gitlab_confg.external_url | to_json }}
+external_url {{ gitlab_config.external_url | to_json }}
 
 ## Roles for multi-instance GitLab
 ##! The default is to have no roles enabled, which results in GitLab running as an all-in-one instance.
@@ -60,7 +60,7 @@ roles {{ gitlab_config.roles | to_json }}
 ################################################################################
 
 {% if 'gitlab_rails' in gitlab_config %}
-{% for k, v in gitlab_config.rails %}
+{% for k,v in gitlab_config.rails | dictsort %}
 gitlab_rails[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
@@ -248,7 +248,7 @@ gitlab_rails[{{ k | to_json }}] = {{ v | to_json }}
 ####! The format of mail_room crash logs
 # mailroom['exit_log_format'] = "plain"
 {% if 'mailroom' in gitlab_config %}
-{% for k, v in gitlab_config.mailroom %}
+{% for k,v in gitlab_config.mailroom | dictsort %}
 mailroom[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
@@ -273,15 +273,17 @@ gitlab_rails['object_store']['enabled'] = {{ gitlab_config.gitlab_rails_object_s
 {% if 'proxy_download' in gitlab_config.gitlab_rails_object_store %}
 gitlab_rails['object_store']['proxy_download'] = {{ gitlab_config.gitlab_rails_object_store.proxy_download | to_json }}
 {% endif %}
-{% for k, v in gitlab_config.gitlab_rails_object_store.connection %}
+{% for k,v in gitlab_config.gitlab_rails_object_store.connection | dictsort %}
 gitlab_rails['object_store']['connection'] = {
   {{ k | to_json }} => {{ v | to_json }}
 }
 {% endfor %}
-{% for k, v in gitlab_config.gitlab_rails_object_store.objects %}
-{% for ok, ov in v %}
+{% for k, v in gitlab_config.gitlab_rails_object_store.objects | dictsort %}
+{% for ok, ov in v | dictsort %}
 gitlab_rails['object_store']['objects'][{{ k | to_json }}][{{ ok | to_json }}] = {{ ov | to_json }}
 {% endfor %}
+{% endfor %}
+{% endif %}
 # gitlab_rails['object_store']['connection'] = {}
 # gitlab_rails['object_store']['proxy_download'] = false
 # gitlab_rails['object_store']['objects']['artifacts']['bucket'] = nil
@@ -498,8 +500,8 @@ EOS
 #   }
 # ]
 {% if 'gitlab_rails_omniauth_providers' in gitlab_config %}
-gitlab_rails['omniauth_providers'] = YAML.load <<- 'EOS'
-{{ gitlab_config.gitlab_rails_omniauth_providers | to_yaml
+gitlab_rails['omniauth_providers'] = YAML.load <<-'EOS'
+{{ gitlab_config.gitlab_rails_omniauth_providers | to_yaml }}
 EOS
 {% endif %}
 
@@ -518,9 +520,10 @@ EOS
 # gitlab_rails['backup_keep_time'] = 604800
 
 {% if 'gitlab_rails_backup_upload_connection' in gitlab_config %}
-gitlab_rails['backup_upload_connection'] = YAML.load <<- 'EOS'
+gitlab_rails['backup_upload_connection'] = YAML.load <<-'EOS'
 {{ gitlab_config.gitlab_rails_backup_upload_connection | to_yaml }}
 EOS
+{% endif %}
 # gitlab_rails['backup_upload_connection'] = {
 #   'provider' => 'AWS',
 #   'region' => 'eu-west-1',
@@ -550,7 +553,7 @@ EOS
 #    "SKIP" => "db,uploads,repositories,builds,artifacts,lfs,registry,pages"
 #}
 {% if 'gitlab_rails_env' in gitlab_config %}
-gitlab_rails['env'] = YAML.load <<- 'EOS'
+gitlab_rails['env'] = YAML.load <<-'EOS'
 {{ gitlab_config.gitlab_rails_env | to_yaml }}
 EOS
 {% endif %}
@@ -564,8 +567,8 @@ EOS
 #   'aws_access_key_id' => 'AKIAKIAKI',
 #   'aws_secret_access_key' => 'secret123'
 # }
-{% if gitlab_rails_pseudonymizer_upload_connection' in gitlab_config %}
-gitlab_rails['pseudoymizer_upload_connection"] = YAML.load <<- 'EOS'
+{% if 'gitlab_rails_pseudonymizer_upload_connection' in gitlab_config %}
+gitlab_rails['pseudoymizer_upload_connection"] = YAML.load <<-'EOS'
 {{ gitlab_config.gitlab_rails_pseudonymizer_upload_connection | to_yaml }}
 EOS
 {% endif %}
@@ -618,7 +621,7 @@ high_availability['mountpoint'] = {{ gitlab_config.high_availability.mountpoint 
 #   'bantime' => 3600
 # }
 {% if 'gitlab_rails_rack_attack_git_basic_auth' in gitlab_config %}
-gitlab_rails['rack_attack_git_basic_auth'] = YAML.load <<- 'EOS'
+gitlab_rails['rack_attack_git_basic_auth'] = YAML.load <<-'EOS'
 {{ gitlab_config.gitlab_rails_rack_attack_git_basic_auth | to_yaml }}
 EOS
 {% endif %}
@@ -632,13 +635,13 @@ EOS
 
 #### Change the initial default admin password and shared runner registration tokens.
 ####! **Only applicable on initial setup, changing these settings after database
-####!   is created and seeded won't yield any change.**
+####!   is created and seeded wont yield any change.**
 # gitlab_rails['initial_root_password'] = "password"
 # gitlab_rails['initial_shared_runners_registration_token'] = "token"
 
 #### Set path to an initial license to be used while bootstrapping GitLab.
 ####! **Only applicable on initial setup, future license updations need to be done via UI.
-####! Updating the file specified in this path won't yield any change after the first reconfigure run.
+####! Updating the file specified in this path wont yield any change after the first reconfigure run.
 # gitlab_rails['initial_license_file'] = '/etc/gitlab/company.gitlab-license'
 
 #### Enable or disable automatic database migrations
@@ -695,7 +698,7 @@ EOS
 #   {'host' => '127.0.0.1', 'port' => 26379},
 # ]
 {% if 'gitlab_rails_redis_sentinels' in gitlab_config %}
-gitlab_rails['redis_sentinels'] = YAML.load <<- 'EOS'
+gitlab_rails['redis_sentinels'] = YAML.load <<-'EOS'
 {{ gitlab_config.gitlab_rails_redis_sentinels | to_yaml }}
 EOS
 {% endif %}
@@ -760,22 +763,22 @@ registry_external_url {{ gitlab_config.registry_external_url | to_json }}
 # gitlab_rails['registry_issuer'] = "omnibus-gitlab-issuer"
 
 {% if 'registry' in gitlab_config %}
-{% for k,v in gitlab_config.registry %}
+{% for k,v in gitlab_config.registry | dictsort %}
 registry[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
 {% if 'registry_env' in gitlab_config %}
-registry['env'] = YAML.load <<- 'EOS'
+registry['env'] = YAML.load <<-'EOS'
 {{ gitlab_config.registry_env | to_yaml }}
 EOS
 {% endif %}
 {% if 'registry_storage' in gitlab_config %}
-registry['storage'] = YAML.load <<- 'EOS'
+registry['storage'] = YAML.load <<-'EOS'
 {{ gitlab_config.storage | to_yaml }}
 EOS
 {% endif %}
 {% if 'registry_notifications' in gitlab_config %}
-registry['notifications'] = YAML.load <<- 'EOS'
+registry['notifications'] = YAML.load <<-'EOS'
 {{ gitlab_config.registry_notifications | to_yaml }}
 EOS
 {% endif %}
@@ -893,7 +896,7 @@ EOS
 #   'SSL_CERT_DIR' => "/opt/gitlab/embedded/ssl/certs/"
 # }
 {% if 'gitlab_workhorse_env' in gitlab_config %}
-gitlab_workhorse['env'] = YAML.load <<- 'EOS'
+gitlab_workhorse['env'] = YAML.load <<-'EOS'
 {{ gitlab_config.gitlab_workhorse_env | to_yaml }}
 EOS
 {% endif %}
@@ -904,7 +907,7 @@ EOS
 ##! Docs: https://docs.gitlab.com/omnibus/settings/configuration.html#changing-the-name-of-the-git-user-group
 ################################################################################
 {% if 'user' in gitlab_config %}
-{% for k,v in gitlab_config.user %}
+{% for k,v in gitlab_config.user | dictsort %}
 user[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
@@ -929,7 +932,7 @@ user[{{ k | to_json }}] = {{ v | to_json }}
 ##! Docs: https://docs.gitlab.com/omnibus/settings/unicorn.html
 ################################################################################
 {% if 'unicorn' in gitlab_config %}
-{% for k,v in gitlab_config.unicorn %}
+{% for k,v in gitlab_config.unicorn | dictsort %}
 unicorn[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
@@ -970,7 +973,7 @@ unicorn[{{ k | to_json }}] = {{ v | to_json }}
 ##! Docs: https://docs.gitlab.com/omnibus/settings/puma.html
 ################################################################################
 {% if 'puma' in gitlab_config %}
-{% for k,v in gitlab_config.puma %}
+{% for k,v in gitlab_config.puma | dictsort %}
 puma[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
@@ -1004,7 +1007,7 @@ puma[{{ k | to_json }}] = {{ v | to_json }}
 ## GitLab Sidekiq
 ################################################################################
 {% if 'sidekiq' in gitlab_config %}
-{% for k,v in gitlab_config.sidekiq %}
+{% for k,v in gitlab_config.sidekiq | dictsort %}
 sidekiq[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
@@ -1047,7 +1050,7 @@ sidekiq[{{ k | to_json }}] = {{ v | to_json }}
 # gitlab_shell['log_format'] = 'json'
 # gitlab_shell['http_settings'] = { user: 'username', password: 'password', ca_file: '/etc/ssl/cert.pem', ca_path: '/etc/pki/tls/certs', self_signed_cert: false}
 {% if 'gitlab_shell_http_settings' in gitlab_config %}
-gitlab_shell['http_settings'] = YAML.load <<- 'EOS'
+gitlab_shell['http_settings'] = YAML.load <<-'EOS'
 {{ gitlab_config.gitlab_shell_http_settings | to_yaml }}
 EOS
 {% endif %}
@@ -1061,7 +1064,7 @@ EOS
 ###! Docs: https://gitlab.com/gitlab-org/gitlab-shell#migration-to-go-feature-flags
 # gitlab_shell['migration'] = { enabled: true, features: [] }
 {% if 'gitlab_shell_migration' in gitlab_config %}
-gitlab_shell['migration'] = YAML.load <<- 'EOS'
+gitlab_shell['migration'] = YAML.load <<-'EOS'
 {{ gitlab_config.gitlab_shell_migration | to_yaml }}
 EOS
 {% endif %}
@@ -1218,7 +1221,7 @@ EOS
 # See https://www.postgresql.org/docs/11/static/auth-pg-hba-conf.html for an explanation
 # of the values
 {% if 'postgresql_custom_pg_hpa_entries' in gitlab_config %}
-postgresql['custom_pg_hpa_entries'] = YAML.load <<- 'EOS'
+postgresql['custom_pg_hpa_entries'] = YAML.load <<-'EOS'
 {{ gitlab_config.postgresql_custom_pg_hpa_entries | to_yaml }}
 EOS
 {% endif %}
@@ -1233,7 +1236,7 @@ EOS
 ##! Docs: https://docs.gitlab.com/omnibus/settings/redis.html
 ################################################################################
 {% if 'redis' in gitlab_config %}
-{% for k,v in gitlab_config.redis %}
+{% for k,v in gitlab_config.redis | dictsort %}
 redis[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
@@ -1273,14 +1276,14 @@ redis['rename_commands'] = {{ gitlab_config.redis_rename_commands | to_json }}
 ###!       https://docs.gitlab.com/ee/administration/high_availability/redis.html
 # redis_master_role['enable'] = true
 {% if 'redis_master_role' in gitlab_config %}
-{% for k,v in gitlab_config.redis_master_role %}
+{% for k,v in gitlab_config.redis_master_role | dictsort %}
 redis_master_role[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
 
 # redis_replica_role['enable'] = true
 {% if 'redis_replica_role' in gitlab_config %}
-{% for k,v in gitlab_config.redis_replica_role %}
+{% for k,v in gitlab_config.redis_replica_role | dictsort %}
 redis_replica_role[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
@@ -1342,7 +1345,7 @@ redis_replica_role[{{ k | to_json }}] = {{ v | to_json }}
 ##! Docs: https://docs.gitlab.com/omnibus/settings/nginx.html#using-a-non-bundled-web-server
 ################################################################################
 {% if 'webserver' in gitlab_config %}
-{% for k,v in gitlab_config.webserver %}
+{% for k,v in gitlab_config.webserver | dictsort %}
 webserver[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
@@ -1419,7 +1422,7 @@ webserver[{{ k | to_json }}] = {{ v | to_json }}
 # nginx['proxy_connect_timeout'] = 300
 
 {% if 'nginx_proxy_set_headers' in gitlab_config %}
-nginx['proxy_set_headers'] = YAML.load <<- 'EOS'
+nginx['proxy_set_headers'] = YAML.load <<-'EOS'
 {{ nginx_proxy_set_headers | to_yaml }}
 {% endif %}
 # nginx['proxy_set_headers'] = {
@@ -1469,7 +1472,7 @@ nginx['proxy_set_headers'] = YAML.load <<- 'EOS'
 
 ### Nginx status
 {% if nginx_status in gitlab_config %}
-nginx['status'] = YAML.load <<- 'EOS'
+nginx['status'] = YAML.load <<-'EOS'
 {{ gitlab_config.nginx_status | to_yaml }}
 EOS
 {% endif %}
@@ -1494,7 +1497,7 @@ EOS
 ################################################################################
 
 {% if 'logging' in gitlab_config %}
-{% for k,v in gitlab_config.logging %}
+{% for k,v in gitlab_config.logging | dictsort %}
 logging[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
@@ -1575,7 +1578,7 @@ runtime_dir {{ gitlab_config.runtime_dir | to_json }}
 ##! { "receive" => ["fsckObjects = true"], "alias" => ["st = status", "co = checkout"] }
 
 {% if 'omnibus_gitconfig_system' in gitlab_config %}
-omnibus_gitconfig['system'] = YAML.load <<- 'EOS'
+omnibus_gitconfig['system'] = YAML.load <<-'EOS'
 {{ gitlab_config.omnibus_gitconfig_system | to_yaml }}
 {% endif %}
 # omnibus_gitconfig['system'] = {
@@ -1602,7 +1605,7 @@ pages_external_url {{ gitlab_config.pages_external_url | to_json }}
 {% endif %}
 
 {% if 'pages' in gitlab_config %}
-{% for k,v in gitlab_config.pages %}
+{% for k,v in gitlab_config.pages | dictsort %}
 gitlab_pages[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
@@ -2384,7 +2387,7 @@ gitlab_pages[{{ k | to_json }}] = {{ v | to_json }}
 ## GitLab Geo Secondary (EE only)
 ################################################################################
 {% if 'geo_secondary' in gitlab_config %}
-{% for k,v in gitlab_config.geo_secondary %}
+{% for k,v in gitlab_config.geo_secondary | dictsort %}
 geo_secondary[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
@@ -2409,7 +2412,7 @@ geo_secondary[{{ k | to_json }}] = {{ v | to_json }}
 ## GitLab Geo Secondary Tracking Database (EE only)
 ################################################################################
 {% if 'geo_postgresql' in gitlab_config %}
-{% for k,v in gitlab_config.geo_postgresql %}
+{% for k,v in gitlab_config.geo_postgresql | dictsort %}
 geo_postgresql[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
@@ -2440,7 +2443,7 @@ geo_postgresql[{{ k | to_json }}] = {{ v | to_json }}
 # See the [PgBouncer page](https://pgbouncer.github.io/config.html) for details
 ################################################################################
 {% if 'pgbouncer' in gitlab_config %}
-{% for k,v in gitlab_config.pgbouncer %}
+{% for k,v in gitlab_config.pgbouncer | dictsort %}
 pgbouncer[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
@@ -2471,7 +2474,7 @@ pgbouncer[{{ k | to_json }}] = {{ v | to_json }}
 # pgbouncer['stats_users'] = %w(gitlab-psql postgres pgbouncer)
 # pgbouncer['ignore_startup_parameters'] = 'extra_float_digits'
 {% if 'pgbouncer_databases' in gitlab_config %}
-pgbouncer['databases'] = YAML.load <<- 'EOS'
+pgbouncer['databases'] = YAML.load <<-'EOS'
 {{ gitlab_config.pgbouncer_databases | to_yaml }}
 EOS
 {% endif %}
@@ -2493,7 +2496,7 @@ EOS
 # pgbouncer['auth_hba_file'] = nil
 # pgbouncer['auth_query'] = 'SELECT username, password FROM public.pg_shadow_lookup($1)'
 {% if 'pgbouncer_users' in gitlab_config %}
-pgbouncer['users'] = YAML.load <<- 'EOS'
+pgbouncer['users'] = YAML.load <<-'EOS'
 {{ gitlab_config.pgbouncer_users | to_yaml }}
 EOS
 {% endif %}
@@ -2560,7 +2563,7 @@ EOS
 # Repmgr (EE only)
 ################################################################################
 {% if 'repmgr' in gitlab_config %}
-{% for k, v in gitlab_config.repmgr %}
+{% for k, v in gitlab_config.repmgr | dictsort %}
 repmgr[{{ k | to_json }}] = {{ k | to_json }}
 {% endfor %}
 {% endif %}
@@ -2612,7 +2615,7 @@ repmgr[{{ k | to_json }}] = {{ k | to_json }}
 # repmgr['master_response_timeout'] = 60
 # repmgr['daemon'] = true
 {% if 'repmgrd' in gitlab_config %}
-{% for k, v in gitlab_config.repmgrd %}
+{% for k, v in gitlab_config.repmgrd | dictsort %}
 repmgrd[{{ k | to_json }}] = {{ k | to_json }}
 {% endfor %}
 {% endif %}
@@ -2625,7 +2628,7 @@ repmgrd[{{ k | to_json }}] = {{ k | to_json }}
 #
 ################################################################################
 {% if 'patroni' in gitlab_config %}
-{% for k, v in gitlab_config.patroni %}
+{% for k, v in gitlab_config.patroni | dictsort %}
 patroni[{{ k | to_json }}] = {{ k | to_json }}
 {% endfor %}
 {% endif %}
@@ -2642,7 +2645,7 @@ patroni[{{ k | to_json }}] = {{ k | to_json }}
 # patroni['log_directory'] = '/var/log/gitlab/patroni'
 # patroni['log_level'] = 'INFO'
 {% if 'patroni_consul' in gitlab_config %}
-{% for k, v in gitlab_config.patroni_consul %}
+{% for k, v in gitlab_config.patroni_consul | dictsort %}
 patroni['consul'][{{ k | to_json }}] = {{ k | to_json }}
 {% endfor %}
 {% endif %}
@@ -2661,7 +2664,7 @@ patroni['consul'][{{ k | to_json }}] = {{ k | to_json }}
 
 ## PostgreSQL configuration override
 {% if 'patroni_postgresql' in gitlab_config %}
-{% for k, v in gitlab_config.patroni_postgresql %}
+{% for k, v in gitlab_config.patroni_postgresql | dictsort %}
 patroni['postgresql'][{{ k | to_json }}] = {{ k | to_json }}
 {% endfor %}
 {% endif %}
@@ -2695,7 +2698,7 @@ patroni['postgresql'][{{ k | to_json }}] = {{ k | to_json }}
 # Consul (EEP only)
 ################################################################################
 {% if 'consul' in gitlab_config %}
-{% for k,v in gitlab_config.consul %}
+{% for k,v in gitlab_config.consul | dictsort %}
 consul[{{ k | to_json }} = {{ v | to_json }}
 {% endfor %}
 {% endif %}
@@ -2722,7 +2725,7 @@ consul[{{ k | to_json }} = {{ v | to_json }}
 # }
 # consul['services'] = []
 {% if 'consul_service_config' in gitlab_config %}
-consul['service_config'] = YAML.load <<- 'EOS'
+consul['service_config'] = YAML.load <<-'EOS'
 {{ gitlab_config.consul_service_config | to_yaml }}
 EOS
 {% endif %}
@@ -2742,7 +2745,7 @@ EOS
 #   }
 # }
 {% if 'consul_watchers' in gitlab_config %}
-consul['service_watchers'] = YAML.load <<- 'EOS'
+consul['service_watchers'] = YAML.load <<-'EOS'
 {{ gitlab_config.consul_watchers | to_yaml }}
 EOS
 {% endif %}
