@@ -568,7 +568,7 @@ EOS
 #   'aws_secret_access_key' => 'secret123'
 # }
 {% if 'gitlab_rails_pseudonymizer_upload_connection' in gitlab_config %}
-gitlab_rails['pseudoymizer_upload_connection"] = YAML.load <<-'EOS'
+gitlab_rails['pseudoymizer_upload_connection'] = YAML.load <<-'EOS'
 {{ gitlab_config.gitlab_rails_pseudonymizer_upload_connection | to_yaml }}
 EOS
 {% endif %}
