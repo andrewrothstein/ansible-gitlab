@@ -13,6 +13,7 @@ gitlab_os_dep_pkgs:
   - openssh-server
   - postfix
 
+gitlab_pkg_dir: /usr/local/gitlab-pkgs
 gitlab_download_timeout_seconds: 600
 
 gitlab_config:
@@ -43,7 +44,7 @@ gitlab_config:
     gitlab_default_projects_features_snippets: true
     gitlab_default_projects_features_builds: true
     gitlab_default_projects_features_container_registry: true
-    gitlab_issue_closing_pattern: "\b((?:[Cc]los(?:e[sd]?|ing)|\b[Ff]ix(?:e[sd]|ing)?|\b[Rr]esolv(?:e[sd]?|ing)|\b[Ii]mplement(?:s|ed|ing)?)(:?) +(?:(?:issues? +)?%{issue_ref}(?:(?:, *| +and +)?)|([A-Z][A-Z0-9_]+-\d+))+)"
+    gitlab_issue_closing_pattern: '\b((?:[Cc]los(?:e[sd]?|ing)|\b[Ff]ix(?:e[sd]|ing)?|\b[Rr]esolv(?:e[sd]?|ing)|\b[Ii]mplement(?:s|ed|ing)?)(:?) +(?:(?:issues? +)?%{issue_ref}(?:(?:, *| +and +)?)|([A-Z][A-Z0-9_]+-\d+))+)'
     gitlab_repository_downloads_path: 'tmp/repositories'
     gravatar_plain_url: 'http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon'
     gravatar_ssl_url: 'https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon'
@@ -569,7 +570,7 @@ gitlab_config:
     keepalive_timeout: 65
     cache_max_size: '5000m'
     server_names_hash_bucket_size: 64
-    request_buffering_off_path_regex: "\.git/git-receive-pack$|\.git/info/refs?service=git-receive-pack$|\.git/gitlab-lfs/objects|\.git/info/lfs/objects/batch$"
+    request_buffering_off_path_regex: '\.git/git-receive-pack$|\.git/info/refs?service=git-receive-pack$|\.git/gitlab-lfs/objects|\.git/info/lfs/objects/batch$'
   nginx_proxy_set_headers:
     "Host" : "$http_host_with_default"
     "X-Real-IP" : "$remote_addr"
@@ -694,8 +695,8 @@ gitlab_config:
     dns_max_ttl: '15.0'
     dns_zone_check_period: '0'
     dns_nxdomain_ttl: '15.0'
-    admin_users: %w(gitlab-psql postgres pgbouncer)
-    stats_users: %w(gitlab-psql postgres pgbouncer)
+    admin_users: '%w(gitlab-psql postgres pgbouncer)'
+    stats_users: '%w(gitlab-psql postgres pgbouncer)'
     ignore_startup_parameters: 'extra_float_digits'
     unix_socket_mode: '0777'
     auth_type: 'md5'

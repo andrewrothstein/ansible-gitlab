@@ -498,7 +498,7 @@ EOS
 #   }
 # ]
 {% if 'gitlab_rails_omniauth_providers' in gitlab_config %}
-gitlab_rails['omniauth_providers'] = YAML.load <- EOS
+gitlab_rails['omniauth_providers'] = YAML.load <<- 'EOS'
 {{ gitlab_config.gitlab_rails_omniauth_providers | to_yaml
 EOS
 {% endif %}
@@ -518,7 +518,7 @@ EOS
 # gitlab_rails['backup_keep_time'] = 604800
 
 {% if 'gitlab_rails_backup_upload_connection' in gitlab_config %}
-gitlab_rails['backup_upload_connection'] = YAML.load <- EOS
+gitlab_rails['backup_upload_connection'] = YAML.load <<- 'EOS'
 {{ gitlab_config.gitlab_rails_backup_upload_connection | to_yaml }}
 EOS
 # gitlab_rails['backup_upload_connection'] = {
@@ -550,7 +550,7 @@ EOS
 #    "SKIP" => "db,uploads,repositories,builds,artifacts,lfs,registry,pages"
 #}
 {% if 'gitlab_rails_env' in gitlab_config %}
-gitlab_rails['env'] = YAML.load <- EOS
+gitlab_rails['env'] = YAML.load <<- 'EOS'
 {{ gitlab_config.gitlab_rails_env | to_yaml }}
 EOS
 {% endif %}
@@ -565,7 +565,7 @@ EOS
 #   'aws_secret_access_key' => 'secret123'
 # }
 {% if gitlab_rails_pseudonymizer_upload_connection' in gitlab_config %}
-gitlab_rails['pseudoymizer_upload_connection"] = YAML.load <- EOS
+gitlab_rails['pseudoymizer_upload_connection"] = YAML.load <<- 'EOS'
 {{ gitlab_config.gitlab_rails_pseudonymizer_upload_connection | to_yaml }}
 EOS
 {% endif %}
@@ -618,7 +618,7 @@ high_availability['mountpoint'] = {{ gitlab_config.high_availability.mountpoint 
 #   'bantime' => 3600
 # }
 {% if 'gitlab_rails_rack_attack_git_basic_auth' in gitlab_config %}
-gitlab_rails['rack_attack_git_basic_auth'] = YAML.load <- EOS
+gitlab_rails['rack_attack_git_basic_auth'] = YAML.load <<- 'EOS'
 {{ gitlab_config.gitlab_rails_rack_attack_git_basic_auth | to_yaml }}
 EOS
 {% endif %}
@@ -695,7 +695,7 @@ EOS
 #   {'host' => '127.0.0.1', 'port' => 26379},
 # ]
 {% if 'gitlab_rails_redis_sentinels' in gitlab_config %}
-gitlab_rails['redis_sentinels'] = YAML.load <- EOS
+gitlab_rails['redis_sentinels'] = YAML.load <<- 'EOS'
 {{ gitlab_config.gitlab_rails_redis_sentinels | to_yaml }}
 EOS
 {% endif %}
@@ -765,17 +765,17 @@ registry[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
 {% if 'registry_env' in gitlab_config %}
-registry['env'] = YAML.load <- EOS
+registry['env'] = YAML.load <<- 'EOS'
 {{ gitlab_config.registry_env | to_yaml }}
 EOS
 {% endif %}
 {% if 'registry_storage' in gitlab_config %}
-registry['storage'] = YAML.load <- EOS
+registry['storage'] = YAML.load <<- 'EOS'
 {{ gitlab_config.storage | to_yaml }}
 EOS
 {% endif %}
 {% if 'registry_notifications' in gitlab_config %}
-registry['notifications'] = YAML.load <- EOS
+registry['notifications'] = YAML.load <<- 'EOS'
 {{ gitlab_config.registry_notifications | to_yaml }}
 EOS
 {% endif %}
@@ -893,7 +893,7 @@ EOS
 #   'SSL_CERT_DIR' => "/opt/gitlab/embedded/ssl/certs/"
 # }
 {% if 'gitlab_workhorse_env' in gitlab_config %}
-gitlab_workhorse['env'] = YAML.load <- EOS
+gitlab_workhorse['env'] = YAML.load <<- 'EOS'
 {{ gitlab_config.gitlab_workhorse_env | to_yaml }}
 EOS
 {% endif %}
@@ -1047,7 +1047,7 @@ sidekiq[{{ k | to_json }}] = {{ v | to_json }}
 # gitlab_shell['log_format'] = 'json'
 # gitlab_shell['http_settings'] = { user: 'username', password: 'password', ca_file: '/etc/ssl/cert.pem', ca_path: '/etc/pki/tls/certs', self_signed_cert: false}
 {% if 'gitlab_shell_http_settings' in gitlab_config %}
-gitlab_shell['http_settings'] = YAML.load <- EOS
+gitlab_shell['http_settings'] = YAML.load <<- 'EOS'
 {{ gitlab_config.gitlab_shell_http_settings | to_yaml }}
 EOS
 {% endif %}
@@ -1061,7 +1061,7 @@ EOS
 ###! Docs: https://gitlab.com/gitlab-org/gitlab-shell#migration-to-go-feature-flags
 # gitlab_shell['migration'] = { enabled: true, features: [] }
 {% if 'gitlab_shell_migration' in gitlab_config %}
-gitlab_shell['migration'] = YAML.load <- EOS
+gitlab_shell['migration'] = YAML.load <<- 'EOS'
 {{ gitlab_config.gitlab_shell_migration | to_yaml }}
 EOS
 {% endif %}
@@ -1218,7 +1218,7 @@ EOS
 # See https://www.postgresql.org/docs/11/static/auth-pg-hba-conf.html for an explanation
 # of the values
 {% if 'postgresql_custom_pg_hpa_entries' in gitlab_config %}
-postgresql['custom_pg_hpa_entries'] = YAML.load <- EOS
+postgresql['custom_pg_hpa_entries'] = YAML.load <<- 'EOS'
 {{ gitlab_config.postgresql_custom_pg_hpa_entries | to_yaml }}
 EOS
 {% endif %}
@@ -1419,7 +1419,7 @@ webserver[{{ k | to_json }}] = {{ v | to_json }}
 # nginx['proxy_connect_timeout'] = 300
 
 {% if 'nginx_proxy_set_headers' in gitlab_config %}
-nginx['proxy_set_headers'] = YAML.load <- EOS
+nginx['proxy_set_headers'] = YAML.load <<- 'EOS'
 {{ nginx_proxy_set_headers | to_yaml }}
 {% endif %}
 # nginx['proxy_set_headers'] = {
@@ -1469,7 +1469,7 @@ nginx['proxy_set_headers'] = YAML.load <- EOS
 
 ### Nginx status
 {% if nginx_status in gitlab_config %}
-nginx['status'] = YAML.load <- EOS
+nginx['status'] = YAML.load <<- 'EOS'
 {{ gitlab_config.nginx_status | to_yaml }}
 EOS
 {% endif %}
@@ -1575,7 +1575,7 @@ runtime_dir {{ gitlab_config.runtime_dir | to_json }}
 ##! { "receive" => ["fsckObjects = true"], "alias" => ["st = status", "co = checkout"] }
 
 {% if 'omnibus_gitconfig_system' in gitlab_config %}
-omnibus_gitconfig['system'] = YAML.load <- EOS
+omnibus_gitconfig['system'] = YAML.load <<- 'EOS'
 {{ gitlab_config.omnibus_gitconfig_system | to_yaml }}
 {% endif %}
 # omnibus_gitconfig['system'] = {
@@ -2471,7 +2471,7 @@ pgbouncer[{{ k | to_json }}] = {{ v | to_json }}
 # pgbouncer['stats_users'] = %w(gitlab-psql postgres pgbouncer)
 # pgbouncer['ignore_startup_parameters'] = 'extra_float_digits'
 {% if 'pgbouncer_databases' in gitlab_config %}
-pgbouncer['databases'] = YAML.load <- EOS
+pgbouncer['databases'] = YAML.load <<- 'EOS'
 {{ gitlab_config.pgbouncer_databases | to_yaml }}
 EOS
 {% endif %}
@@ -2493,7 +2493,7 @@ EOS
 # pgbouncer['auth_hba_file'] = nil
 # pgbouncer['auth_query'] = 'SELECT username, password FROM public.pg_shadow_lookup($1)'
 {% if 'pgbouncer_users' in gitlab_config %}
-pgbouncer['users'] = YAML.load <- EOS
+pgbouncer['users'] = YAML.load <<- 'EOS'
 {{ gitlab_config.pgbouncer_users | to_yaml }}
 EOS
 {% endif %}
@@ -2722,7 +2722,7 @@ consul[{{ k | to_json }} = {{ v | to_json }}
 # }
 # consul['services'] = []
 {% if 'consul_service_config' in gitlab_config %}
-consul['service_config'] = YAML.load <- EOS
+consul['service_config'] = YAML.load <<- 'EOS'
 {{ gitlab_config.consul_service_config | to_yaml }}
 EOS
 {% endif %}
@@ -2742,7 +2742,7 @@ EOS
 #   }
 # }
 {% if 'consul_watchers' in gitlab_config %}
-consul['service_watchers'] = YAML.load <- EOS
+consul['service_watchers'] = YAML.load <<- 'EOS'
 {{ gitlab_config.consul_watchers | to_yaml }}
 EOS
 {% endif %}

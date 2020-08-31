@@ -7,8 +7,8 @@
     url: '{{ item }}'
     state: present
 
-- name: install pkg...
+- name: APT installing {{ gitlab_local_pkg }}...
   become: yes
   become_user: root
   apt:
-    deb: /tmp/{{ gitlab_pkg }}
+    deb: '{{ gitlab_local_pkg }}'

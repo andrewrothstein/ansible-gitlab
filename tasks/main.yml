@@ -15,20 +15,43 @@
     name: '{{ item }}'
     state: present
 
-- block:
+- name: mkdir -p {{ gitlab_pkg_dir }}
+  become: yes
+  become_user: root
+  file:
+    path: '{{ gitlab_pkg_dir }}'
+    mode: 0755
+    state: directory
+
+- name: looking for {{ gitlab_local_pkg }}...
+  become: yes
+  stat:
+    path: '{{ gitlab_local_pkg }}'
+  changed_when: False
+  register: gitlab_local_pkg_binary
+
+- when: not gitlab_local_pkg_binary.stat.exists
+  block:
     - name: download pkg...
       become: yes
       become_user: root
       get_url:
         url: '{{ gitlab_pkg_url }}'
-        dest: /tmp/{{ gitlab_pkg }}
+        dest: '{{ gitlab_local_pkg }}'
         mode: 0700
         timeout: '{{ gitlab_download_timeout_seconds }}'
     - include_tasks: '{{ ansible_pkg_mgr }}.yml'
-  always:
-    - name: cleanup...
-      become: yes
-      become_user: root
-      file:
-        path: /tmp/{{ gitlab_pkg }}
-        state: absent
+
+- name: configure gitlab
+  when: gitlab_config is defined
+  become: yes
+  become_user: root
+  with_items:
+    - f: gitlab.rb
+      d: /etc/gitlab
+      m: 0644
+  template:
+    src: '{{ item.f }}.j2'
+    dest: '{{ item.d }}/{{ item.f }}'
+    mode: '{{ item.m }}'
+  notify: gitlab_reconfigure
