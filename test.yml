@@ -394,7 +394,7 @@
           features: []
         postgres:
           enable: true
-          listen_address: nil
+          #listen_address: nil
           port: 5432
           connect_port: 5432
           data_dir: "/var/opt/gitlab/postgresql/data"
@@ -502,14 +502,14 @@
             KEYS: VALUES
         redis_master_role:
           enable: True
-        redis_replica_role:
-          enable: True
+        #redis_replica_role:
+        #  enable: True
         web_server:
           external_users: []
           username: 'gitlab-www'
           group: 'gitlab-www'
-          uid: nil
-          gid: nil
+          #uid: nil
+          #gid: nil
           shell: '/bin/false'
           home: '/var/opt/gitlab/nginx'
         nginx:
@@ -577,18 +577,18 @@
           svlogd_num: 30 # keep 30 rotated log files
           svlogd_timeout: 24 * 60 * 60 # rotate after 24 hours
           svlogd_filter: "gzip" # compress logs with gzip
-          svlogd_udp: nil # transmit log messages via UDP
-          svlogd_prefix: nil # custom prefix for log messages
+          #svlogd_udp: nil # transmit log messages via UDP
+          #svlogd_prefix: nil # custom prefix for log messages
           logrotate_frequency: "daily" # rotate logs daily
-          logrotate_maxsize: nil # rotate logs when they grow bigger than size bytes even before the specified time interval (daily, weekly, monthly, or yearly)
-          logrotate_size: nil # do not rotate by size by default
+          #logrotate_maxsize: nil # rotate logs when they grow bigger than size bytes even before the specified time interval (daily, weekly, monthly, or yearly)
+          #logrotate_size: nil # do not rotate by size by default
           logrotate_rotate: 30 # keep 30 rotated logs
           logrotate_compress: "compress" # see 'man logrotate'
           logrotate_method: "copytruncate" # see 'man logrotate'
-          logrotate_postrotate: nil # no postrotate command by default
-          logrotate_dateformat: nil # use date extensions for rotated files rather than numbers e.g. a value of "-%Y-%m-%d" would give rotated files like production.log-2016-03-09.gz
-          udp_log_shipping_host: nil
-          udp_log_shipping_hostname: nil
+          #logrotate_postrotate: nil # no postrotate command by default
+          #logrotate_dateformat: nil # use date extensions for rotated files rather than numbers e.g. a value of "-%Y-%m-%d" would give rotated files like production.log-2016-03-09.gz
+          #udp_log_shipping_host: nil
+          #udp_log_shipping_hostname: nil
           udp_log_shipping_port: 514
         logrotate:
           enable: true
@@ -634,7 +634,7 @@
           dir: "/var/opt/gitlab/gitlab-pages"
           log_directory: "/var/log/gitlab/gitlab-pages"
           artifacts_server: true
-          artifacts_server_url: nil # Defaults to external_url + '/api/v4'
+          #artifacts_server_url: nil # Defaults to external_url + '/api/v4'
           artifacts_server_timeout: 10
           inplace_chroot: false
           metrics_address: ":9235"
@@ -810,7 +810,7 @@
           log_directory: '/var/log/gitlab/consul'
           env_directory: '/opt/gitlab/etc/consul/env'
           monitoring_service_discovery: false
-          node_name: nil
+          #node_name: nil
           script_directory: '/var/opt/gitlab/consul/scripts'
           services: []
         consul_env:
