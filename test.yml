@@ -504,7 +504,7 @@
           enable: True
         redis_replica_role:
           enable: True
-        webserver:
+        web_server:
           external_users: []
           username: 'gitlab-www'
           group: 'gitlab-www'

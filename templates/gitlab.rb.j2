@@ -1344,9 +1344,9 @@ redis_replica_role[{{ k | to_json }}] = {{ v | to_json }}
 ## GitLab Web server
 ##! Docs: https://docs.gitlab.com/omnibus/settings/nginx.html#using-a-non-bundled-web-server
 ################################################################################
-{% if 'webserver' in gitlab_config %}
-{% for k,v in gitlab_config.webserver | dictsort %}
-webserver[{{ k | to_json }}] = {{ v | to_json }}
+{% if 'web_server' in gitlab_config %}
+{% for k,v in gitlab_config.web_server | dictsort %}
+web_server[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
 
