@@ -2699,7 +2699,7 @@ patroni['postgresql'][{{ k | to_json }}] = {{ k | to_json }}
 ################################################################################
 {% if 'consul' in gitlab_config %}
 {% for k,v in gitlab_config.consul | dictsort %}
-consul[{{ k | to_json }} = {{ v | to_json }}
+consul[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
 # consul['enable'] = false
