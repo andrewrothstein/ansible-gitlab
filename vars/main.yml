@@ -1,2 +1,3 @@
 ---
 # vars file for gitlab
+gitlab_local_pkg: '{{ gitlab_pkg_dir }}/{{ gitlab_pkg }}'

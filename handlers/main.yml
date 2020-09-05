@@ -1,2 +1,7 @@
 ---
 # handlers file for gitlab
+- name: gitlab_reconfigure
+  become: yes
+  become_user: root
+  when: gitlab_enabled
+  command: gitlab-ctl reconfigure

@@ -13,4 +13,7 @@ gitlab_os_dep_pkgs:
   - openssh-server
   - postfix
 
+gitlab_pkg_dir: /usr/local/gitlab-pkgs
 gitlab_download_timeout_seconds: 600
+
+gitlab_enabled: True

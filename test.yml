@@ -1,4 +1,834 @@
 ---
 - hosts: all
+  vars:
+    gitlab_enabled: False
   roles:
-    - role: '{{playbook_dir}}'
+    - role: '{{ playbook_dir }}'
+      gitlab_config:
+        external_url: http://gitlab.example.com
+        roles:
+          - redis_sentinel_role
+          - redis_master_role
+        rails:
+          gitlab_ssh_host: ssh.host_example.com
+          gitlab_ssh_user: ''
+          time_zone: UTC
+          max_request_duration_seconds: 57
+          gitlab_email_enabled: true
+          gitlab_email_from: example@example.com
+          gitlab_email_display_name: Example
+          gitlab_email_reply_to: noreplay@example.com
+          gitlab_email_subject_suffix: ''
+          gitlab_email_smime_enabled: false
+          gitlab_email_smime_key_file: /etc/gitlab/ssl/gitlab_smime.key
+          gitlab_email_smime_cert_file: /etc/gitlab/ssl/gitlab_smime.crt
+          gitlab_email_smime_ca_certs_file: /etc/gitlab/ssl/gitlab_smime_cas.crt
+          gitlab_default_can_create_group: true
+          gitlab_username_changing_enabled: true
+          gitlab_default_theme: 2
+          gitlab_default_projects_features_issues: true
+          gitlab_default_projects_features_merge_requests: true
+          gitlab_default_projects_features_wiki: true
+          gitlab_default_projects_features_snippets: true
+          gitlab_default_projects_features_builds: true
+          gitlab_default_projects_features_container_registry: true
+          gitlab_issue_closing_pattern: '\b((?:[Cc]los(?:e[sd]?|ing)|\b[Ff]ix(?:e[sd]|ing)?|\b[Rr]esolv(?:e[sd]?|ing)|\b[Ii]mplement(?:s|ed|ing)?)(:?) +(?:(?:issues? +)?%{issue_ref}(?:(?:, *| +and +)?)|([A-Z][A-Z0-9_]+-\d+))+)'
+          gitlab_repository_downloads_path: 'tmp/repositories'
+          gravatar_plain_url: 'http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon'
+          gravatar_ssl_url: 'https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon'
+          stuck_ci_jobs_worker_cron: "0 0 * * *"
+          expire_build_artifacts_worker_cron: "50 * * * *"
+          environments_auto_stop_cron_worker_cron: "24 * * * *"
+          pipeline_schedule_worker_cron: "19 * * * *"
+          ci_archive_traces_cron_worker_cron: "17 * * * *"
+          repository_check_worker_cron: "20 * * * *"
+          admin_email_worker_cron: "0 0 * * 0"
+          personal_access_tokens_expiring_worker_cron: "0 1 * * *"
+          repository_archive_cache_worker_cron: "0 * * * *"
+          pages_domain_verification_cron_worker: "*/15 * * * *"
+          pages_domain_ssl_renewal_cron_worker: "*/10 * * * *"
+          pages_domain_removal_cron_worker: "47 0 * * *"
+          schedule_migrate_external_diffs_worker_cron: "15 * * * *"
+          webhook_timeout: 10
+          graphql_timeout: 30
+          trusted_proxies: []
+          monitoring_unicorn_sampler_interval: 10
+          shutdown_blackout_seconds: 10
+          incoming_email_enabled: true
+          incoming_email_email: gitlab-incoming@gmail.com
+          incoming_email_password: "[REDACTED]"
+          incoming_email_host: imap.gmail.com
+          incoming_email_port: 993
+          incoming_email_ssl: true
+          incoming_email_start_tls: false
+          incoming_email_mailbox_name: inbox
+          incoming_email_idle_timeout: 60
+          incoming_email_log_file: /var/log/gitlab/mailroom/mail_room_json.log
+          incoming_email_expunge_deleted: false
+          impersonation_enabled: true
+          usage_ping_enabled: true
+          seat_link_enabled: true
+          mattermost_host: https://mattermost.example.com
+          ldap_enabled: false
+          prevent_ldap_sign_in: false
+          smartcard_enabled: false
+          smartcard_ca_file: /etc/gitlab/ssl/CA.pem
+          smartcard_client_certificate_required_host: smartcard.gitlab.example.com
+          smartcard_client_certificate_required_port: 3444
+          smartcard_required_for_git_access: false
+          smartcard_san_extensions: false
+          omniauth_enabled: false
+          omniauth_allow_single_sign_on: ['saml']
+          omniauth_sync_email_from_provider: 'saml'
+          omniauth_sync_profile_from_provider: ['saml']
+          omniauth_sync_profile_attributes: ['email']
+          omniauth_auto_sign_in_with_provider: 'saml'
+          omniauth_block_auto_created_users: true
+          omniauth_auto_link_ldap_user: false
+          omniauth_auto_link_saml_user: false
+          omniauth_external_providers: ['twitter', 'google_oauth2']
+          omniauth_allow_bypass_two_factor: ['google_oauth2']
+          manage_backup_path: true
+          backup_path: "/var/opt/gitlab/backups"
+          backup_archive_permissions: 0644
+          backup_pg_schema: 'public'
+          backup_keep_time: 604800
+          backup_upload_remote_directory: 'my.s3.bucket'
+          backup_multipart_chunk_size: 104857600
+          backup_encryption: 'AES256'
+          backup_encryption_key: '<base64-encoded encryption key>'
+          backup_storage_class: 'STANDARD'
+          pseudonymizer_manifest: 'config/pseudonymizer.yml'
+          pseudonymizer_upload_remote_directory: 'gitlab-elt'
+          gitaly_token: 'secret token'
+          shared_path: '/var/opt/gitlab/gitlab-rails/shared'
+          gitlab_shell_ssh_port: 22
+          gitlab_shell_git_timeout: 800
+          extra_google_analytics_id: '_your_tracking_id'
+          extra_piwik_url: '_your_piwik_url'
+          extra_piwik_site_id: '_your_piwik_site_id'
+          dir: /var/opt/gitlab/gitlab-rails
+          log_directory: /var/log/gitlab/gitlab-rails
+          uploads_directory: /var/opt/gitlab/gitlab-rails/uploads
+          initial_root_password: password
+          initial_shared_runners_registration_token: token
+          initial_license_file: /etc/gitlab/company.gitlab-license
+          auto_migrate: true
+          rake_cache_clear: true
+          db_adapter: "postgresql"
+          db_encoding: "unicode"
+          db_database: "gitlabhq_production"
+          db_pool: 1
+          db_username: "gitlab"
+          db_port: 5432
+          db_sslcompression: 0
+          db_prepared_statements: false
+          db_statements_limit: 1000
+          redis_host: "127.0.0.1"
+          redis_port: 6379
+          redis_ssl: false
+          redis_database: 0
+          redis_enable_client: true
+          redis_socket: "/var/opt/gitlab/redis/redis.socket"
+          smtp_enable: true
+          smtp_address: "smtp.server"
+          smtp_port: 465
+          smtp_user_name: "smtp user"
+          smtp_password: "smtp password"
+          smtp_domain: "example.com"
+          smtp_authentication: "login"
+          smtp_enable_starttls_auto: true
+          smtp_tls: false
+          smtp_openssl_verify_mode: 'none'
+          smtp_ca_path: "/etc/ssl/certs"
+          smtp_ca_file: "/etc/ssl/certs/ca-certificates.crt"
+          registry_enabled: true
+          registry_host: "registry.gitlab.example.com"
+          registry_port: "5005"
+          registry_path: "/var/opt/gitlab/gitlab-rails/shared/registry"
+          sentry_enabled: false
+          sentry_dsn: 'https://<key>@sentry.io/<project>'
+          sentry_clientside_dsn: 'https://<key>@sentry.io/<project>'
+          sentry_environment: 'production'
+          service_desk_email_enabled: false
+          service_desk_email_address: "contact_project+%{key}@gmail.com"
+          service_desk_email_email: "contact_project@gmail.com"
+          service_desk_email_password: "[REDACTED]"
+          service_desk_email_mailbox_name: "inbox"
+          service_desk_email_idle_timeout: 60
+          service_desk_email_log_file: "/var/log/gitlab/mailroom/mail_room_json.log"
+          service_desk_email_host: "imap.gmail.com"
+          service_desk_email_port: 993
+          service_desk_email_ssl: true
+          service_desk_email_start_tls: false
+          feature_flags_unleash_enabled: false
+        mailroom:
+          exit_log_format: plain
+        gitlab_rails_object_store:
+          enabled: false
+          connection:
+            provider: AWS
+            aws_access_key_id: topsecretkeyid
+            aws_secret_access_key: topsecretaccesskey
+          proxy_download: false
+          objects:
+            artifacts:
+              bucket: object-bucket-id
+            external_diffs:
+              bucket: external-diffs-bucket-id
+            lfs:
+              bucket: lfs-bucket-id
+            uploads:
+              bucket: uploads-bucket-id
+            packages:
+              bucket: packages-bucket-id
+            dependency_proxy:
+              bucket: dependency-proxy-bucket-id
+            terraform_state:
+              bucket: terraform-state-bucket-id
+        gitlab_rails_ldap_servers:
+          main: # 'main' is the GitLab 'provider ID' of this LDAP server
+            label: 'LDAP'
+            host: '_your_ldap_server'
+            port: 389
+            uid: 'sAMAccountName'
+            bind_dn: '_the_full_dn_of_the_user_you_will_bind_with'
+            password: '_the_password_of_the_bind_user'
+            encryption: 'plain' # "start_tls" or "simple_tls" or "plain"
+            verify_certificates: true
+            smartcard_auth: false
+            active_directory: true
+            allow_username_or_email_login: false
+            lowercase_usernames: false
+            block_auto_created_users: false
+            base: ''
+            user_filter: ''
+            ## EE only
+            group_base: ''
+            admin_group: ''
+            sync_ssh_keys: false
+          secondary: # 'secondary' is the GitLab 'provider ID' of second LDAP server
+            label: 'LDAP'
+            host: '_your_ldap_server'
+            port: 389
+            uid: 'sAMAccountName'
+            bind_dn: '_the_full_dn_of_the_user_you_will_bind_with'
+            password: '_the_password_of_the_bind_user'
+            encryption: 'plain' # "start_tls" or "simple_tls" or "plain"
+            verify_certificates: true
+            smartcard_auth: false
+            active_directory: true
+            allow_username_or_email_login: false
+            lowercase_usernames: false
+            block_auto_created_users: false
+            base: ''
+            user_filter: ''
+            ## EE only
+            group_base: ''
+            admin_group: ''
+            sync_ssh_keys: false
+        gitlab_rails_omniauth_providers:
+          - name: google_oauth2
+            app_id: YOUR APP ID
+            app_secret: YOUR APP_SECRET
+            args:
+              access_type: offline
+              approval_prompt: ''
+        gitlab_rails_backup_upload_connection:
+          provider: AWS
+          region: eu-west-1
+          aws_access_key_id: backup-access-key-id
+          aws_secret_access_key: backup-secret-access-key
+        gitlab_rails_env:
+          SKIP: 'db,uploads,repositories'
+          BUNDLE_GEMFILE: /opt/gitlab/embedded/service/gitlab-rails/Gemfile
+          PATH: /opt/gitlab/bin:/opt/gitlab/embedded/bin:/bin:/usr/bin
+        gitlab_rails_pseudonymizer_upload_connection:
+          provider: AWS
+          region: eu-west-1
+          aws_access_key_id: AKIAKIAKI
+        high_availability:
+          mountpoint:
+            - /var/opt/gitlab/git-data
+            - /var/opt/gitlab/gitlab-rails/shared
+        gitlab_rails_rack_attack_git_basic_auth:
+          enabled: fale
+          ip_whitelist:
+            - '127.0.0.1'
+          maxretry: 10
+          findtime: 60
+          bantime: 3600
+        gitlab_rails_redis_sentinels:
+          - host: '127.0.0.1'
+            port: 26379
+        registry_external_url: http://registry.example.com
+        registry:
+          enable: true
+          username: "registry"
+          group: "registry"
+          dir: "/var/opt/gitlab/registry"
+          registry_http_addr: "localhost:5000"
+          debug_addr: "localhost:5001"
+          log_directory: "/var/log/gitlab/registry"
+          env_directory: "/opt/gitlab/etc/registry/env"
+          log_level: "info"
+          log_formatter: "text"
+          rootcertbundle: "/var/opt/gitlab/registry/certificate.crt"
+          health_storagedriver_enabled: true
+          storage_delete_enabled: true
+          validation_enabled: false
+          autoredirect: false
+          compatibility_schema1_enabled: false
+          default_notifications_timeout: "500ms"
+          default_notifications_threshold: 5
+          default_notifications_backoff: "1s"
+        registry_env:
+          SSL_CERT_DIR: /opt/gitlab/embedded/ssl/certs/
+        registry_storage:
+          s3:
+            accesskey: access-key
+            secretkey: secret-key
+            region: us-east-1
+            bucket: gitlab-registry-bucket-id
+        registry_notifications:
+          - name: test_endpoint
+            url: https://gitlab.example.com/notify2
+            timeout: '500ms'
+            threshold: 5
+            backoff: '1s'
+            headers:
+              Authorization:
+                - AUTHORIZATION_EXAMPLE_TOKEN
+        gitlab_workhorse:
+          enable: true
+          ha: false
+          listen_network: "unix"
+          listen_umask: 000
+          listen_addr: "/var/opt/gitlab/gitlab-workhorse/socket"
+          auth_backend: "http://localhost:8080"
+          auth_socket: "''"
+          pprof_listen_addr: "''"
+          prometheus_listen_addr: "localhost:9229"
+          dir: "/var/opt/gitlab/gitlab-workhorse"
+          log_directory: "/var/log/gitlab/gitlab-workhorse"
+          proxy_headers_timeout: "1m0s"
+          api_limit: 0
+          api_queue_limit: 0
+          api_queue_duration: "30s"
+          api_ci_long_polling_duration: "60s"
+          log_format: "json"
+          env_directory: "/opt/gitlab/etc/gitlab-workhorse/env"
+        gitlab_workhorse_env:
+          PATH: /opt/gitlab/bin/opt/gitlab/embedded/bin/bin:/usr/bin
+          SSL_CERT_DIR: /opt/gitlab/embedded/ssl/certs/
+        user:
+          username: "git"
+          group: "git"
+          shell: "/bin/sh"
+          home: "/var/opt/gitlab"
+          git_user_name: "GitLab"
+          git_user_email: "gitlab@#{node['fqdn']}"
+        unicorn:
+          enable: false
+          worker_timeout: 60
+          worker_processes: 2
+          listen: 'localhost'
+          port: 8080
+          socket: '/var/opt/gitlab/gitlab-rails/sockets/gitlab.socket'
+          pidfile: '/opt/gitlab/var/unicorn/unicorn.pid'
+          tcp_nopush: true
+          backlog_socket: 1024
+          somaxconn: 1024
+          log_directory: "/var/log/gitlab/unicorn"
+          worker_memory_limit_min: "1024 * 1 << 20"
+          worker_memory_limit_max: "1280 * 1 << 20"
+          exporter_enabled: false
+          exporter_address: "127.0.0.1"
+          exporter_port: 8083
+        puma:
+          enable: true
+          ha: false
+          worker_timeout: 60
+          worker_processes: 2
+          min_threads: 4
+          max_threads: 4
+          listen: '127.0.0.1'
+          port: 8080
+          socket: '/var/opt/gitlab/gitlab-rails/sockets/gitlab.socket'
+          pidfile: '/opt/gitlab/var/puma/puma.pid'
+          state_path: '/opt/gitlab/var/puma/puma.state'
+          log_directory: "/var/log/gitlab/puma"
+          per_worker_max_memory_mb: 850
+          exporter_enabled: false
+          exporter_address: "127.0.0.1"
+          exporter_port: 8083
+        sidekiq:
+          log_directory: "/var/log/gitlab/sidekiq"
+          log_format: "json"
+          shutdown_timeout: 4
+          cluster: true
+          experimental_queue_selector: false
+          max_concurrency: 50
+          queue_groups: ['*']
+          negate: false
+          metrics_enabled: true
+          listen_address: "localhost"
+          listen_port: 8082
+        gitlab_shell:
+          audit_usernames: false
+          log_level: 'INFO'
+          log_format: 'json'
+          log_directory: "/var/log/gitlab/gitlab-shell/"
+          custom_hooks_dir: "/opt/gitlab/embedded/service/gitlab-shell/hooks"
+          auth_file: "/var/opt/gitlab/.ssh/authorized_keys"
+          git_trace_log_file: "/var/log/gitlab/gitlab-shell/gitlab-shell-git-trace.log"
+          dir: "/var/opt/gitlab/gitlab-shell"
+        gitlab_shell_http_settings:
+          user: username
+          password: password
+          ca_file: /etc/ssl/cert.pem
+          ca_path: /etc/pki/tls/certs
+          self_signed_cert: false
+        gitlab_shell_migration:
+          enabled: true
+          features: []
+        postgres:
+          enable: true
+          #listen_address: nil
+          port: 5432
+          connect_port: 5432
+          data_dir: "/var/opt/gitlab/postgresql/data"
+          shared_buffers: "256MB"
+          ha: false
+          dir: "/var/opt/gitlab/postgresql"
+          log_directory: "/var/log/gitlab/postgresql"
+          username: "gitlab-psql"
+          group: "gitlab-psql"
+          sql_user_password: 'SQL_USER_PASSWORD_HASH'
+          shell: "/bin/sh"
+          home: "/var/opt/gitlab/postgresql"
+          user_path: "/opt/gitlab/embedded/bin:/opt/gitlab/bin:$PATH"
+          sql_user: "gitlab"
+          max_connections: 200
+          md5_auth_cidr_addresses: []
+          trust_auth_cidr_addresses: []
+          wal_buffers: "-1"
+          autovacuum_max_workers: "3"
+          autovacuum_freeze_max_age: "200000000"
+          track_activity_query_size: "1024"
+          hot_standby: "off"
+          ssl: 'on'
+          hostssl: false
+          ssl_ciphers: 'HIGH:MEDIUM:+3DES:!aNULL:!SSLv3:!TLSv1'
+          ssl_cert_file: 'server.crt'
+          ssl_key_file: 'server.key'
+          ssl_ca_file: '/opt/gitlab/embedded/ssl/certs/cacert.pem'
+          wal_level: "hot_standby"
+          max_wal_senders: 5
+          max_replication_slots: 0
+          max_locks_per_transaction: 128
+          archive_mode: "off"
+          work_mem: "16MB"
+          maintenance_work_mem: "16MB"
+          checkpoint_segments: 10
+          checkpoint_timeout: "5min"
+          checkpoint_completion_target: 0.9
+          effective_io_concurrency: 1
+          checkpoint_warning: "30s"
+          effective_cache_size: "1MB"
+          shmmax:  17179869184 # or 4294967295
+          shmall:  4194304 # or 1048575
+          autovacuum: "on"
+          log_autovacuum_min_duration: "-1"
+          autovacuum_naptime: "1min"
+          autovacuum_vacuum_threshold: "50"
+          autovacuum_analyze_threshold: "50"
+          autovacuum_vacuum_scale_factor: "0.02"
+          autovacuum_analyze_scale_factor: "0.01"
+          autovacuum_vacuum_cost_delay: "20ms"
+          autovacuum_vacuum_cost_limit: "-1"
+          statement_timeout: "60000"
+          idle_in_transaction_session_timeout: "60000"
+          log_line_prefix: "%a"
+          max_worker_processes: 8
+          max_parallel_workers_per_gather: 0
+          log_lock_waits: 1
+          deadlock_timeout: '5s'
+          track_io_timing: 0
+          default_statistics_target: 1000
+          min_wal_size: 80MB
+          max_wal_size: 1GB
+          archive_timeout: "0"
+          sql_replication_user: "gitlab_replicator"
+          sql_replication_password: "md5 hash of postgresql password"
+          wal_keep_segments: 10
+          max_standby_archive_delay: "30s"
+          max_standby_streaming_delay: "30s"
+          synchronous_commit: on
+          synchronous_standby_names: ''
+          hot_standby_feedback: 'off'
+          random_page_cost: 2.0
+          log_temp_files: -1
+          log_checkpoints: 'off'
+          version: 10
+        postgresql_custom_pg_hba_entries:
+          APPLICATION:
+            - type: example
+              database: example
+              user: example
+              cidr: example
+              method: example
+              option: example
+        redis:
+          bind: '0.0.0.0' # or specify an IP to bind to a single one
+          port: 6379
+          password: 'redis-password-goes-here'
+          master: false # by default this is true
+          master_name: 'gitlab-redis'
+          master_ip: '192.168.0.2'
+          announce_ip: '192.168.0.2'
+          announce_port: 6379
+          master_port: 6379
+          master_password: 'redis-password-goes-here'
+          client_output_buffer_limit_normal: '0 0 0'
+          client_output_buffer_limit_replica: '256mb 64mb 60'
+          client_output_buffer_limit_pubsub: '32mb 8mb 60'
+          save: ['900 1', '300 10', '60 10000' ]
+          lazyfree_lazy_eviction: true
+          lazyfree_lazy_expire: true
+          lazyfree_lazy_server_del: true
+          replica_lazy_flush: true
+        redis_rename_commands:
+            KEYS: VALUES
+        redis_master_role:
+          enable: True
+        #redis_replica_role:
+        #  enable: True
+        web_server:
+          external_users: []
+          username: 'gitlab-www'
+          group: 'gitlab-www'
+          #uid: nil
+          #gid: nil
+          shell: '/bin/false'
+          home: '/var/opt/gitlab/nginx'
+        nginx:
+          enable: true
+          client_max_body_size: '250m'
+          redirect_http_to_https: false
+          redirect_http_to_https_port: 80
+          ssl_client_certificate: "/etc/gitlab/ssl/ca.crt"
+          ssl_verify_client: "off"
+          ssl_verify_depth: "1"
+          ssl_certificate: "/etc/gitlab/ssl/#{node['fqdn']}.crt"
+          ssl_certificate_key: "/etc/gitlab/ssl/#{node['fqdn']}.key"
+          ssl_ciphers: "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256"
+          ssl_prefer_server_ciphers: "on"
+          ssl_protocols: "TLSv1.2 TLSv1.3"
+          ssl_session_cache: "builtin:1000  shared:SSL:10m"
+          ssl_session_timeout: "5m"
+          ssl_dhparam: /etc/gitlab/ssl/dhparams.pem
+          listen_addresses: ['*', '[::]']
+          hsts_max_age: 31536000
+          hsts_include_subdomains: false
+          referrer_policy: 'strict-origin-when-cross-origin'
+          gzip_enabled: true
+          listen_port: 8080
+          custom_gitlab_server_config: "location ^~ /foo-namespace/bar-project/raw/ {\n deny all;\n}\n"
+          custom_nginx_config: "include /etc/nginx/conf.d/example.conf;"
+          proxy_read_timeout: 3600
+          proxy_connect_timeout: 300
+      # nginx['proxy_cache_path'] = 'proxy_cache keys_zone=gitlab:10m max_size=1g levels=1:2'
+          proxy_cache: 'gitlab'
+          http2_enabled: true
+          real_ip_trusted_addresses: []
+          dir: "/var/opt/gitlab/nginx"
+          log_directory: "/var/log/gitlab/nginx"
+          worker_processes: 4
+          worker_connections: 10240
+          log_format: '$remote_addr - $remote_user [$time_local] "$request_method $filtered_request_uri $server_protocol" $status $body_bytes_sent "$filtered_http_referer" "$http_user_agent" $gzip_ratio'
+          sendfile: 'on'
+          tcp_nopush: 'on'
+          tcp_nodelay: 'on'
+          gzip: "on"
+          gzip_http_version: "1.0"
+          gzip_comp_level: "2"
+          gzip_proxied: "any"
+          gzip_types: [ "text/plain", "text/css", "application/x-javascript", "text/xml", "application/xml", "application/xml+rss", "text/javascript", "application/json" ]
+          keepalive_timeout: 65
+          cache_max_size: '5000m'
+          server_names_hash_bucket_size: 64
+          request_buffering_off_path_regex: '\.git/git-receive-pack$|\.git/info/refs?service=git-receive-pack$|\.git/gitlab-lfs/objects|\.git/info/lfs/objects/batch$'
+        nginx_proxy_set_headers:
+          "Host" : "$http_host_with_default"
+          "X-Real-IP" : "$remote_addr"
+          "X-Forwarded-For" : "$proxy_add_x_forwarded_for"
+          "X-Forwarded-Proto" : "https"
+          "X-Forwarded-Ssl" : "on"
+          "Upgrade" : "$http_upgrade"
+          "Connection" : "$connection_upgrade"
+        nginx_custom_error_pages:
+          '404':
+            title: Example title
+            header: Example header
+            message: Example message
+        logging:
+          svlogd_size: 200 * 1024 * 1024 # rotate after 200 MB of log data
+          svlogd_num: 30 # keep 30 rotated log files
+          svlogd_timeout: 24 * 60 * 60 # rotate after 24 hours
+          svlogd_filter: "gzip" # compress logs with gzip
+          #svlogd_udp: nil # transmit log messages via UDP
+          #svlogd_prefix: nil # custom prefix for log messages
+          logrotate_frequency: "daily" # rotate logs daily
+          #logrotate_maxsize: nil # rotate logs when they grow bigger than size bytes even before the specified time interval (daily, weekly, monthly, or yearly)
+          #logrotate_size: nil # do not rotate by size by default
+          logrotate_rotate: 30 # keep 30 rotated logs
+          logrotate_compress: "compress" # see 'man logrotate'
+          logrotate_method: "copytruncate" # see 'man logrotate'
+          #logrotate_postrotate: nil # no postrotate command by default
+          #logrotate_dateformat: nil # use date extensions for rotated files rather than numbers e.g. a value of "-%Y-%m-%d" would give rotated files like production.log-2016-03-09.gz
+          #udp_log_shipping_host: nil
+          #udp_log_shipping_hostname: nil
+          udp_log_shipping_port: 514
+        logrotate:
+          enable: true
+          log_directory: "/var/log/gitlab/logrotate"
+        manage_storage_directories:
+          enable: false
+          manage_etc: false
+        runtime_dir: /run
+        omnibus_gitconfig_system:
+          pack:
+            - threads = 1
+            - useSparse = true
+          receive:
+            - fsckObjects = true
+            - advertisePushOptions = true
+          repack:
+            - writeBitmaps = true
+          transfer:
+            - hideRefs=^refs/tmp/
+            - hideRefs=^refs/keep-around/
+            - hideRefs=^refs/remotes/
+          core:
+            - alternateRefsCommand="exit 0 #"
+            - fsyncObjectFiles = true
+          fetch:
+            - writeCommitGraph = true
+        pages_external_url: http://pages.example.com/
+        pages:
+          enable: false
+          external_http: []
+          external_https: []
+          insecure_ciphers: false
+          status_uri: "/@status"
+          max_connections: 5000
+          log_format: "json"
+          log_verbose: false
+          sentry_enabled: false
+          sentry_dsn: 'https://<key>@sentry.io/<project>'
+          sentry_environment: 'production'
+          listen_proxy: "localhost:8090"
+          redirect_http: true
+          use_http2: true
+          dir: "/var/opt/gitlab/gitlab-pages"
+          log_directory: "/var/log/gitlab/gitlab-pages"
+          artifacts_server: true
+          #artifacts_server_url: nil # Defaults to external_url + '/api/v4'
+          artifacts_server_timeout: 10
+          inplace_chroot: false
+          metrics_address: ":9235"
+          tls_min_version: "ssl3"
+          tls_max_version: "tls1.2"
+          access_control: false
+          gitlab_client_http_timeout: "10s"
+          gitlab_client_jwt_expiry: "30s"
+          headers: []
+        geo_secondary:
+          auto_migrate: true
+          db_adapter: "postgresql"
+          db_encoding: "unicode"
+          db_database: "gitlabhq_geo_production"
+          db_pool: 1
+          db_username: "gitlab_geo"
+          db_host: "/var/opt/gitlab/geo-postgresql"
+          db_port: 5431
+          db_sslcompression: 0
+          db_fdw: true
+        geo_postgresql:
+          enable: false
+          ha: false
+          dir: '/var/opt/gitlab/geo-postgresql'
+          data_dir: '/var/opt/gitlab/geo-postgresql/data'
+          sql_user_password: 'SQL_USER_PASSWORD_HASH'
+      
+        pgbouncer:
+          enable: false
+          log_directory: '/var/log/gitlab/pgbouncer'
+          data_directory: '/var/opt/gitlab/pgbouncer'
+          env_directory: '/opt/gitlab/etc/pgbouncer/env'
+          listen_addr: '0.0.0.0'
+          listen_port: '6432'
+          pool_mode: 'transaction'
+          server_reset_query: 'DISCARD ALL'
+          application_name_add_host: '1'
+          max_client_conn: '2048'
+          default_pool_size: '100'
+          min_pool_size: '0'
+          reserve_pool_size: '5'
+          reserve_pool_timeout: '5.0'
+          server_round_robin: '0'
+          log_connections: '0'
+          server_idle_timeout: '30'
+          dns_max_ttl: '15.0'
+          dns_zone_check_period: '0'
+          dns_nxdomain_ttl: '15.0'
+          admin_users: '%w(gitlab-psql postgres pgbouncer)'
+          stats_users: '%w(gitlab-psql postgres pgbouncer)'
+          ignore_startup_parameters: 'extra_float_digits'
+          unix_socket_mode: '0777'
+          auth_type: 'md5'
+          auth_query: 'SELECT username, password FROM public.pg_shadow_lookup($1)'
+          server_reset_query_always: 0
+          server_check_query: 'select 1'
+          server_check_delay: 30
+          syslog: 0
+          syslog_facility: 'daemon'
+          syslog_ident: 'pgbouncer'
+          log_disconnections: 1
+          log_pooler_errors: 1
+          stats_period: 60
+          verbose: 0
+          server_lifetime: 3600
+          server_connect_timeout: 15
+          server_login_retry: 15
+          query_timeout: 0
+          query_wait_timeout: 120
+          client_idle_timeout: 0
+          client_login_timeout: 60
+          autodb_idle_timeout: 3600
+          suspend_timeout: 10
+          idle_transaction_timeout: 0
+          pkt_buf: 4096
+          listen_backlog: 128
+          sbuf_loopcnt: 5
+          max_packet_size: 2147483647
+          tcp_defer_accept: 0
+          tcp_socket_buffer: 0
+          tcp_keepalive: 1
+          tcp_keepcnt: 0
+          tcp_keepidle: 0
+          tcp_keepintvl: 0
+          disable_pqexec: 0
+          client_tls_sslmode: 'disable'
+          client_tls_protocols: 'all'
+          client_tls_dheparams: 'auto'
+          client_tls_ecdhcurve: 'auto'
+          server_tls_sslmode: 'disable'
+          server_tls_protocols: 'all'
+          server_tls_ciphers: 'fast'
+        pgbouncer_env:
+          SSL_CERT_DIR: /opt/gitlab/embedded/ssl/certs/
+        pgbouncer_databases:
+          DATABASE_NAME:
+            host: HOSTNAME,
+            port: PORT
+            user: USERNAME,
+            password: PASSWORD
+        pgbouncer_users:
+          name: USERNAME,
+          password: MD5_PASSWORD_HASH
+        repmgr:
+          enable: false
+          cluster: 'gitlab_cluster'
+          database: 'gitlab_repmgr'
+          port: 5432
+          trust_auth_cidr_addresses: []
+          username: 'gitlab_repmgr'
+          sslmode: 'prefer'
+          sslcompression: 0
+          failover: 'automatic'
+          log_directory: '/var/log/gitlab/repmgrd'
+          pg_bindir: '/opt/gitlab/embedded/bin'
+          service_start_command: '/opt/gitlab/bin/gitlab-ctl start postgresql'
+          service_stop_command: '/opt/gitlab/bin/gitlab-ctl stop postgresql'
+          service_reload_command: '/opt/gitlab/bin/gitlab-ctl hup postgresql'
+          service_restart_command: '/opt/gitlab/bin/gitlab-ctl restart postgresql'
+          promote_command: '/opt/gitlab/embedded/bin/repmgr standby promote -f /var/opt/gitlab/postgresql/repmgr.conf'
+          follow_command: '/opt/gitlab/embedded/bin/repmgr standby follow -f /var/opt/gitlab/postgresql/repmgr.conf'
+          use_replication_slots: false
+          loglevel: 'INFO'
+          logfacility: 'STDERR'
+          master_on_initialization: true
+          retry_promote_interval_secs: 300
+          witness_repl_nodes_sync_interval_secs: 15
+          reconnect_attempts: 6
+          reconnect_interval: 10
+          monitor_interval_secs: 2
+          master_response_timeout: 60
+          daemon: true
+        repmgrd:
+          enable: true
+        patroni:
+          enable: false
+          dir: '/var/opt/gitlab/patroni'
+          data_dir: '/var/opt/gitlab/patroni/data'
+          ctl_command: '/opt/gitlab/embedded/bin/patronictl'
+          scope: 'gitlab-postgresql-ha'
+          log_directory: '/var/log/gitlab/patroni'
+          log_level: 'INFO'
+          loop_wait: 10
+          ttl: 30
+          retry_timeout: 10
+          maximum_lag_on_failover: 1_048_576
+          max_timelines_history: 0
+          master_start_timeout: 300
+          use_pg_rewind: false
+          use_slots: true
+          port: '8008'
+          connect_port: '8008'
+        patroni_consul:
+          url: 'http://127.0.0.1:8500'
+          service_check_interval: '10s'
+          register_service: false
+          checks: []
+        patroni_postgresql:
+          wal_level: 'replica'
+          hot_standby: 'on'
+          wal_keep_segments: 8
+          max_wal_senders: 5
+          max_replication_slots: 5
+          checkpoint_timeout: 30
+        consul:
+          enable: false
+          dir: '/var/opt/gitlab/consul'
+          username: 'gitlab-consul'
+          group: 'gitlab-consul'
+          config_file: '/var/opt/gitlab/consul/config.json'
+          config_dir: '/var/opt/gitlab/consul/config.d'
+          data_dir: '/var/opt/gitlab/consul/data'
+          log_directory: '/var/log/gitlab/consul'
+          env_directory: '/opt/gitlab/etc/consul/env'
+          monitoring_service_discovery: false
+          #node_name: nil
+          script_directory: '/var/opt/gitlab/consul/scripts'
+          services: []
+        consul_env:
+          SSL_CERT_DIR: "/opt/gitlab/embedded/ssl/certs/"
+        consul_configuration:
+          datacenter: gitlab_consul
+          enable_script_checks: true
+          server: false
+        consul_service_config:
+          postgresql:
+            service':
+              name: "postgresql"
+              address: ''
+              port: 5432
+              checks:
+                - script: "/var/opt/gitlab/consul/scripts/check_postgresql"
+                  interval: "10s"
+        consul_watchers:
+          postgresql:
+            enable: false
+            handler: failover_pgbouncer

@@ -1,8 +1,8 @@
 ---
 - include_tasks: add_rpm_key.yml
-- name: install rpm...
+- name: YUM installing {{ gitlab_local_pkg }}...
   become: yes
   become_user: root
   yum:
-    name: /tmp/{{ gitlab_pkg }}
+    name: '{{ gitlab_local_pkg }}'
     state: present
