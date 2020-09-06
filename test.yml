@@ -560,13 +560,13 @@
           server_names_hash_bucket_size: 64
           request_buffering_off_path_regex: '\.git/git-receive-pack$|\.git/info/refs?service=git-receive-pack$|\.git/gitlab-lfs/objects|\.git/info/lfs/objects/batch$'
         nginx_proxy_set_headers:
-          "Host" : "$http_host_with_default"
-          "X-Real-IP" : "$remote_addr"
-          "X-Forwarded-For" : "$proxy_add_x_forwarded_for"
-          "X-Forwarded-Proto" : "https"
-          "X-Forwarded-Ssl" : "on"
-          "Upgrade" : "$http_upgrade"
-          "Connection" : "$connection_upgrade"
+          "Host": "$http_host_with_default"
+          "X-Real-IP": "$remote_addr"
+          "X-Forwarded-For": "$proxy_add_x_forwarded_for"
+          "X-Forwarded-Proto": "https"
+          "X-Forwarded-Ssl": "on"
+          "Upgrade": "$http_upgrade"
+          "Connection": "$connection_upgrade"
         nginx_custom_error_pages:
           '404':
             title: Example title
