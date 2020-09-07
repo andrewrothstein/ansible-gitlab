@@ -282,6 +282,9 @@
           default_notifications_timeout: "500ms"
           default_notifications_threshold: 5
           default_notifications_backoff: "1s"
+        registry_nginx:
+          ssl_certificate: /etc/ssl/gitlab/cert.pem
+          ssl_certificate_key: /etc/ssl/gitlab/key.pem
         registry_env:
           SSL_CERT_DIR: /opt/gitlab/embedded/ssl/certs/
         registry_storage:

@@ -1779,6 +1779,11 @@ gitlab_pages[{{ k | to_json }}] = {{ v | to_json }}
 ################################################################################
 ## Registry NGINX
 ################################################################################
+{% if 'registry_nginx' in gitlab_config %}
+{% for k,v in gitlab_config.registry_nginx | dictsort %}
+registry_nginx[{{ k | to_json }}] = {{ v | to_json }}
+{% endfor %}
+{% endif %}
 
 # All the settings defined in the "GitLab Nginx" section are also available in
 # this "Registry NGINX" section, using the key `registry_nginx`.  However, those
@@ -1789,6 +1794,10 @@ gitlab_pages[{{ k | to_json }}] = {{ v | to_json }}
 # Below you can find settings that are exclusive to "Registry NGINX"
 # registry_nginx['enable'] = false
 
+{% if 'registry_nginx_proxy_set_headers' in gitlab_config %}
+registry_nginx['proxy_set_headers'] = YAML.load <<-'EOS'
+{{ gitlab_config.registry_nginx_proxy_set_headers | to_yaml }}
+{% endif %}
 # registry_nginx['proxy_set_headers'] = {
 #  "Host" => "$http_host",
 #  "X-Real-IP" => "$remote_addr",
