@@ -17,3 +17,9 @@ gitlab_pkg_dir: /usr/local/gitlab-pkgs
 gitlab_download_timeout_seconds: 600
 
 gitlab_enabled: True
+
+# install TLS keys/certs with andrewrothstein.tls
+gitlab_tls_dir: /etc/gitlab/ssl
+gitlab_tls:
+  enable: False
+  # pki_dir: ~/secrets

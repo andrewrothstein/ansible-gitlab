@@ -42,6 +42,27 @@
         timeout: '{{ gitlab_download_timeout_seconds }}'
     - include_tasks: '{{ ansible_pkg_mgr }}.yml'
 
+- when: gitlab_tls.enable
+  block:
+    - name: mkdir -p {{ gitlab_tls_dir }}
+      become: yes
+      become_user: root
+      file:
+        path: '{{ gitlab_tls_dir }}'
+        state: directory
+        mode: 0755
+    - name: install keys/certs
+      include_role:
+        name: andrewrothstein.tls
+      vars:
+        tls_become: yes
+        tls_become_user: root
+        tls_src: '{{ gitlab_tls.pki_dir }}'
+        tls_dest: '{{ gitlab_tls_dir }}'
+        tls_dest_chmod:
+          owner: root
+          grp: root
+
 - name: configure gitlab
   when: gitlab_config is defined
   become: yes
@@ -51,3 +72,4 @@
     dest: /etc/gitlab/gitlab.rb
     mode: 0644
   notify: gitlab_reconfigure
+
