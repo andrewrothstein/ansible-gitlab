@@ -1364,6 +1364,11 @@ web_server[{{ k | to_json }}] = {{ v | to_json }}
 ## GitLab NGINX
 ##! Docs: https://docs.gitlab.com/omnibus/settings/nginx.html
 ################################################################################
+{% if 'nginx' in gitlab_config %}
+{% for k,v in gitlab_config.nginx | dictsort %}
+nginx[{{ k | to_json }}] = {{ v | to_json }}
+{% endfor %}
+{% endif %}
 
 # nginx['enable'] = true
 # nginx['client_max_body_size'] = '250m'
