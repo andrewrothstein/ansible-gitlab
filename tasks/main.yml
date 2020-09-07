@@ -72,4 +72,3 @@
     dest: /etc/gitlab/gitlab.rb
     mode: 0644
   notify: gitlab_reconfigure
-
