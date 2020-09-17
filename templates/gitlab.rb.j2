@@ -273,11 +273,11 @@ gitlab_rails['object_store']['enabled'] = {{ gitlab_config.gitlab_rails_object_s
 {% if 'proxy_download' in gitlab_config.gitlab_rails_object_store %}
 gitlab_rails['object_store']['proxy_download'] = {{ gitlab_config.gitlab_rails_object_store.proxy_download | to_json }}
 {% endif %}
-{% for k,v in gitlab_config.gitlab_rails_object_store.connection | dictsort %}
-gitlab_rails['object_store']['connection'] = {
-  {{ k | to_json }} => {{ v | to_json }}
-}
-{% endfor %}
+{% if 'connection' in gitlab_config.gitlab_rails_object_store %}
+gitlab_rails['object_store']['connection'] = YAML.load <<-'EOS'
+{{ gitlab_config.gitlab_rails_object_store.connection | to_yaml }}
+EOS
+{% endif %}
 {% for k, v in gitlab_config.gitlab_rails_object_store.objects | dictsort %}
 {% for ok, ov in v | dictsort %}
 gitlab_rails['object_store']['objects'][{{ k | to_json }}][{{ ok | to_json }}] = {{ ov | to_json }}
