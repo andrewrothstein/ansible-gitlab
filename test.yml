@@ -186,6 +186,34 @@
               bucket: dependency-proxy-bucket-id
             terraform_state:
               bucket: terraform-state-bucket-id
+        gitlab_rails_artifacts_object_store_connection:
+            provider: AWS
+            aws_access_key_id: topsecretkeyid
+            aws_secret_access_key: topsecretaccesskey
+        gitlab_rails_external_diffs_object_store_connection:
+            provider: AWS
+            aws_access_key_id: topsecretkeyid
+            aws_secret_access_key: topsecretaccesskey
+        gitlab_rails_lfs_object_store_connection:
+            provider: AWS
+            aws_access_key_id: topsecretkeyid
+            aws_secret_access_key: topsecretaccesskey
+        gitlab_rails_uploads_object_store_connection:
+            provider: AWS
+            aws_access_key_id: topsecretkeyid
+            aws_secret_access_key: topsecretaccesskey
+        gitlab_rails_terraform_object_store_connection:
+            provider: AWS
+            aws_access_key_id: topsecretkeyid
+            aws_secret_access_key: topsecretaccesskey
+        gitlab_rails_packages_object_store_connection:
+            provider: AWS
+            aws_access_key_id: topsecretkeyid
+            aws_secret_access_key: topsecretaccesskey
+        gitlab_rails_dependency_proxy_object_store_connection:
+            provider: AWS
+            aws_access_key_id: topsecretkeyid
+            aws_secret_access_key: topsecretaccesskey
         gitlab_rails_ldap_servers:
           main: # 'main' is the GitLab 'provider ID' of this LDAP server
             label: 'LDAP'

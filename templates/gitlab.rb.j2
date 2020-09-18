@@ -315,6 +315,11 @@ gitlab_rails['object_store']['objects'][{{ k | to_json }}][{{ ok | to_json }}] =
 #   # 'host' => 's3.amazonaws.com',
 #   # 'path_style' => false # Use 'host/bucket_name/object' instead of 'bucket_name.host/object'
 # }
+{% if 'gitlab_rails_artifacts_object_store_connection' in gitlab_config %}
+gitlab_rails['artifacts_object_store_connection'] = YAML.load <<-'EOS'
+{{ gitlab_config.gitlab_rails_artifacts_object_store_connection | to_yaml }}
+EOS
+{% endif %}
 
 ### External merge request diffs
 # gitlab_rails['external_diffs_enabled'] = false
@@ -336,6 +341,11 @@ gitlab_rails['object_store']['objects'][{{ k | to_json }}][{{ ok | to_json }}] =
 #   # 'host' => 's3.amazonaws.com',
 #   # 'path_style' => false # Use 'host/bucket_name/object' instead of 'bucket_name.host/object'
 # }
+{% if 'gitlab_rails_external_diffs_object_store_connection' in gitlab_config %}
+gitlab_rails['external_diffs_object_store_connection'] = YAML.load <<-'EOS'
+{{ gitlab_config.gitlab_rails_external_diffs_object_store_connection | to_yaml }}
+EOS
+{% endif %}
 
 ### Git LFS
 # gitlab_rails['lfs_enabled'] = true
@@ -356,6 +366,11 @@ gitlab_rails['object_store']['objects'][{{ k | to_json }}][{{ ok | to_json }}] =
 #   # 'host' => 's3.amazonaws.com',
 #   # 'path_style' => false # Use 'host/bucket_name/object' instead of 'bucket_name.host/object'
 # }
+{% if 'gitlab_rails_lfs_object_store_connection' in gitlab_config %}
+gitlab_rails['lfs_object_store_connection'] = YAML.load <<-'EOS'
+{{ gitlab_config.gitlab_rails_lfs_object_store_connection | to_yaml }}
+EOS
+{% endif %}
 
 ### GitLab uploads
 ###! Docs: https://docs.gitlab.com/ee/administration/uploads.html
@@ -377,6 +392,11 @@ gitlab_rails['object_store']['objects'][{{ k | to_json }}][{{ ok | to_json }}] =
 #   # 'endpoint' => 'https://s3.amazonaws.com', # default: nil - Useful for S3 compliant services such as DigitalOcean Spaces
 #   # 'path_style' => false # Use 'host/bucket_name/object' instead of 'bucket_name.host/object'
 # }
+{% if 'gitlab_rails_uploads_object_store_connection' in gitlab_config %}
+gitlab_rails['uploads_object_store_connection'] = YAML.load <<-'EOS'
+{{ gitlab_config.gitlab_rails_uploads_object_store_connection | to_yaml }}
+EOS
+{% endif %}
 
 ### Terraform state
 ###! Docs: https://docs.gitlab.com/ee/administration/terraform_state
@@ -395,6 +415,11 @@ gitlab_rails['object_store']['objects'][{{ k | to_json }}][{{ ok | to_json }}] =
 #   # 'endpoint' => 'https://s3.amazonaws.com', # default: nil - Useful for S3 compliant services such as DigitalOcean Spaces
 #   # 'path_style' => false # Use 'host/bucket_name/object' instead of 'bucket_name.host/object'
 # }
+{% if 'gitlab_rails_terraform_object_store_connection' in gitlab_config %}
+gitlab_rails['terraform_object_store_connection'] = YAML.load <<-'EOS'
+{{ gitlab_config.gitlab_rails_terraform_object_store_connection | to_yaml }}
+EOS
+{% endif %}
 
 ### Impersonation settings
 # gitlab_rails['impersonation_enabled'] = true
@@ -2281,6 +2306,11 @@ registry_nginx['proxy_set_headers'] = YAML.load <<-'EOS'
 #   # 'endpoint' => 'https://s3.amazonaws.com', # default: nil - Useful for S3 compliant services such as DigitalOcean Spaces
 #   # 'path_style' => false # Use 'host/bucket_name/object' instead of 'bucket_name.host/object'
 # }
+{% if 'gitlab_rails_packages_object_store_connection' in gitlab_config %}
+gitlab_rails['packages_object_store_connection'] = YAML.load <<-'EOS'
+{{ gitlab_config.gitlab_rails_packages_object_store_connection | to_yaml }}
+EOS
+{% endif %}
 
 ################################################################################
 ## Dependency proxy (EE Only)
@@ -2305,6 +2335,11 @@ registry_nginx['proxy_set_headers'] = YAML.load <<-'EOS'
 #   # 'endpoint' => 'https://s3.amazonaws.com', # default: nil - Useful for S3 compliant services such as DigitalOcean Spaces
 #   # 'path_style' => false # Use 'host/bucket_name/object' instead of 'bucket_name.host/object'
 # }
+{% if 'gitlab_rails_dependency_proxy_object_store_connection' in gitlab_config %}
+gitlab_rails['dependency_proxy_object_store_connection'] = YAML.load <<-'EOS'
+{{ gitlab_config.gitlab_rails_dependency_proxy_object_store_connection | to_yaml }}
+EOS
+{% endif %}
 
 ################################################################################
 ## GitLab Sentinel (EE Only)
