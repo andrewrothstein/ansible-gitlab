@@ -1,3 +1,6 @@
 ---
 # vars file for gitlab
 gitlab_local_pkg: '{{ gitlab_pkg_dir }}/{{ gitlab_pkg }}'
+
+# Manual RPM-based installation GPG Keys (ref: https://packages.gitlab.com/gitlab/gitlab-ee/install#manual-rpm)
+gitlab_key_urls: '{{ (gitlab_dist == "ee" and ansible_pkg_mgr in ["dnf", "yum"]) | ternary(["https://packages.gitlab.com/gitlab/gitlab-ee/gpgkey", "https://packages.gitlab.com/gitlab/gitlab-ee/gpgkey/gitlab-gitlab-ee-3D645A26AB9FBD22.pub.gpg"], ["https://packages.gitlab.com/gpg.key"]) }}'

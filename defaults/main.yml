@@ -1,13 +1,10 @@
 ---
 # https://packages.gitlab.com/gitlab/
 gitlab_mirror: https://packages.gitlab.com
-gitlab_ver: 13.5.1
+gitlab_ver: 13.6.1
 gitlab_patch: 0
 
 gitlab_dist: ce
-
-gitlab_key_urls:
-  - https://packages.gitlab.com/gpg.key
 
 gitlab_os_dep_pkgs:
   - openssh-server
