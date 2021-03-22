@@ -1,7 +1,7 @@
 ---
 # https://packages.gitlab.com/gitlab/
 gitlab_mirror: https://packages.gitlab.com
-gitlab_ver: 13.7.4
+gitlab_ver: 13.10.0
 gitlab_patch: 0
 
 gitlab_dist: ce
