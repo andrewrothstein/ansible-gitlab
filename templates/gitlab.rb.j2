@@ -60,7 +60,7 @@ roles {{ gitlab_config.roles | to_json }}
 ################################################################################
 
 {% if 'gitlab_rails' in gitlab_config %}
-{% for k,v in gitlab_config.rails | dictsort %}
+{% for k,v in gitlab_config.gitlab_rails | dictsort %}
 gitlab_rails[{{ k | to_json }}] = {{ v | to_json }}
 {% endfor %}
 {% endif %}
