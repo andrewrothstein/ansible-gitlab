@@ -32,7 +32,7 @@
 
 - when: not gitlab_local_pkg_binary.stat.exists
   block:
-    - name: download pkg...
+    - name: downloading {{ gitlab_pkg_url }}
       become: yes
       become_user: root
       get_url:
