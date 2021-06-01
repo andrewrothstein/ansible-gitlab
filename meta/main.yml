@@ -10,16 +10,13 @@ galaxy_info:
     - name: Debian
       versions:
         - buster
-        - stretch
     - name: EL
       versions:
-        - 7
         - 8
     - name: Ubuntu
       versions:
         - bionic
         - focal
-        - xenial
   galaxy_tags:
     - git
     - gitlab
@@ -34,4 +31,4 @@ dependencies:
   - role: andrewrothstein.gpg
     version: v1.0.7
   - role: andrewrothstein.tls
-    version: v0.1.0
+    version: v0.1.2
