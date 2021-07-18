@@ -8,7 +8,7 @@ gitlab_dist: ce
 
 gitlab_key_urls:
   - https://packages.gitlab.com/gpg.key
-  # Manual RPM-based installation GPG Keys (ref: https://packages.gitlab.com/gitlab/gitlab-ee/install#manual-rpm)
+  - https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey
   - https://packages.gitlab.com/gitlab/gitlab-ee/gpgkey
 
 gitlab_os_dep_pkgs:
