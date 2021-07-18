@@ -1,6 +1,6 @@
 andrewrothstein.gitlab
 =========
-[![Build Status](https://travis-ci.org/andrewrothstein/ansible-gitlab.svg?branch=master)](https://travis-ci.org/andrewrothstein/ansible-gitlab)
+![Build Status](https://github.com/andrewrothstein/ansible-gitlab/actions/workflows/build.yml/badge.svg)
 
 Installs [Gitlab](https://gitlab.com/users/sign_in)
 

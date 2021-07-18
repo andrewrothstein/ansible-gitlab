@@ -25,10 +25,10 @@ galaxy_info:
 
 dependencies:
   - role: andrewrothstein.curl
-    version: v1.0.9
+    version: v1.0.10
   - role: andrewrothstein.ca-certs
-    version: v1.0.3
+    version: v1.0.4
   - role: andrewrothstein.gpg
-    version: v1.0.7
+    version: v1.0.8
   - role: andrewrothstein.tls
-    version: v0.1.2
+    version: v0.1.3
