@@ -31,4 +31,4 @@ dependencies:
   - role: andrewrothstein.gpg
     version: v1.0.8
   - role: andrewrothstein.tls
-    version: v0.1.3
+    version: v0.1.4
