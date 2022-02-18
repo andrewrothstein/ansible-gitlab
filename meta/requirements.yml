@@ -1,0 +1,9 @@
+---
+- name: andrewrothstein.curl
+  version: v1.0.12
+- name: andrewrothstein.ca-certs
+  version: v1.0.6
+- name: andrewrothstein.gpg
+  version: v1.0.11
+- name: andrewrothstein.tls
+  version: v0.1.4

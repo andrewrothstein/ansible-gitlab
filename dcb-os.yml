@@ -1,4 +1,5 @@
-- centos_8
+---
+- debian_bullseye
 - debian_buster
 - ubuntu_bionic
 - ubuntu_focal
