@@ -1,6 +1,6 @@
 ---
 - name: add APT key...
-  become: yes
+  become: true
   become_user: root
   with_items: '{{ gitlab_key_urls }}'
   apt_key:
@@ -8,7 +8,7 @@
     state: present
 
 - name: APT installing {{ gitlab_local_pkg }}...
-  become: yes
+  become: true
   become_user: root
   apt:
     deb: '{{ gitlab_local_pkg }}'

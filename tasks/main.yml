@@ -8,7 +8,7 @@
         - '{{ role_path }}/vars'
 
 - name: install pkg deps...
-  become: yes
+  become: true
   become_user: root
   with_items: '{{ gitlab_os_dep_pkgs | default([]) }}'
   package:
@@ -16,7 +16,7 @@
     state: present
 
 - name: mkdir -p {{ gitlab_pkg_dir }}
-  become: yes
+  become: true
   become_user: root
   file:
     path: '{{ gitlab_pkg_dir }}'
@@ -24,16 +24,16 @@
     state: directory
 
 - name: looking for {{ gitlab_local_pkg }}...
-  become: yes
+  become: true
   stat:
     path: '{{ gitlab_local_pkg }}'
-  changed_when: False
+  changed_when: false
   register: gitlab_local_pkg_binary
 
 - when: not gitlab_local_pkg_binary.stat.exists
   block:
     - name: downloading {{ gitlab_pkg_url }}
-      become: yes
+      become: true
       become_user: root
       get_url:
         url: '{{ gitlab_pkg_url }}'
@@ -45,7 +45,7 @@
 - when: gitlab_tls.enable
   block:
     - name: mkdir -p {{ gitlab_tls_dir }}
-      become: yes
+      become: true
       become_user: root
       file:
         path: '{{ gitlab_tls_dir }}'
@@ -55,7 +55,7 @@
       include_role:
         name: andrewrothstein.tls
       vars:
-        tls_become: yes
+        tls_become: true
         tls_become_user: root
         tls_src: '{{ gitlab_tls.pki_dir }}'
         tls_dest: '{{ gitlab_tls_dir }}'
@@ -65,7 +65,7 @@
 
 - name: configure gitlab
   when: gitlab_config is defined
-  become: yes
+  become: true
   become_user: root
   template:
     src: gitlab.rb.j2

@@ -1,6 +1,6 @@
 ---
 - name: add RPM key...
-  become: yes
+  become: true
   become_user: root
   with_items: '{{ gitlab_key_urls }}'
   rpm_key:

@@ -1,7 +1,7 @@
 ---
 - hosts: all
   vars:
-    gitlab_enabled: False
+    gitlab_enabled: false
   roles:
     - role: '{{ playbook_dir }}'
       gitlab_config:
@@ -495,7 +495,7 @@
           wal_keep_segments: 10
           max_standby_archive_delay: "30s"
           max_standby_streaming_delay: "30s"
-          synchronous_commit: on
+          synchronous_commit: 'on'
           synchronous_standby_names: ''
           hot_standby_feedback: 'off'
           random_page_cost: 2.0
@@ -524,7 +524,7 @@
           client_output_buffer_limit_normal: '0 0 0'
           client_output_buffer_limit_replica: '256mb 64mb 60'
           client_output_buffer_limit_pubsub: '32mb 8mb 60'
-          save: ['900 1', '300 10', '60 10000' ]
+          save: ['900 1', '300 10', '60 10000']
           lazyfree_lazy_eviction: true
           lazyfree_lazy_expire: true
           lazyfree_lazy_server_del: true
@@ -532,9 +532,9 @@
         redis_rename_commands:
             KEYS: VALUES
         redis_master_role:
-          enable: True
+          enable: true
         #redis_replica_role:
-        #  enable: True
+        #  enable: true
         web_server:
           external_users: []
           username: 'gitlab-www'
