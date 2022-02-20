@@ -8,8 +8,7 @@ gitlab_dist: ce
 
 gitlab_key_urls:
   - https://packages.gitlab.com/gpg.key
-  - https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey
-  - https://packages.gitlab.com/gitlab/gitlab-ee/gpgkey
+  - https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey/gitlab-gitlab-ce-3D645A26AB9FBD22.pub.gpg
 
 gitlab_os_dep_pkgs:
   - openssh-server

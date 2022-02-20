@@ -23,6 +23,7 @@ jobs:
         os:
         - debian_bullseye
         - debian_buster
+        - rockylinux_8
         - ubuntu_bionic
         - ubuntu_focal
         python-versions:
