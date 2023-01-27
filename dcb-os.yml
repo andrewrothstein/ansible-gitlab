@@ -2,7 +2,6 @@
 - debian_bullseye
 - debian_buster
 - rockylinux_8
-- rockylinux_9
 - ubuntu_bionic
 - ubuntu_focal
 - ubuntu_jammy
