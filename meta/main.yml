@@ -18,14 +18,9 @@ galaxy_info:
       versions:
         - bionic
         - focal
+        - jammy
   galaxy_tags:
     - git
     - gitlab
     - vcs
     - scm
-
-dependencies:
-  - andrewrothstein.curl
-  - andrewrothstein.ca-certs
-  - andrewrothstein.gpg
-  - andrewrothstein.tls
