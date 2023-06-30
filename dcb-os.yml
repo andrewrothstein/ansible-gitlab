@@ -1,7 +1,7 @@
 ---
+- debian_bookworm
 - debian_bullseye
-- debian_buster
 - rockylinux_8
-- ubuntu_bionic
+- rockylinux_9
 - ubuntu_focal
 - ubuntu_jammy
