@@ -188,35 +188,36 @@
             terraform_state:
               bucket: terraform-state-bucket-id
         gitlab_rails_artifacts_object_store_connection:
-            provider: AWS
-            aws_access_key_id: topsecretkeyid
-            aws_secret_access_key: topsecretaccesskey
+          provider: AWS
+          aws_access_key_id: topsecretkeyid
+          aws_secret_access_key: topsecretaccesskey
         gitlab_rails_external_diffs_object_store_connection:
-            provider: AWS
-            aws_access_key_id: topsecretkeyid
-            aws_secret_access_key: topsecretaccesskey
+          provider: AWS
+          aws_access_key_id: topsecretkeyid
+          aws_secret_access_key: topsecretaccesskey
         gitlab_rails_lfs_object_store_connection:
-            provider: AWS
-            aws_access_key_id: topsecretkeyid
-            aws_secret_access_key: topsecretaccesskey
+          provider: AWS
+          aws_access_key_id: topsecretkeyid
+          aws_secret_access_key: topsecretaccesskey
         gitlab_rails_uploads_object_store_connection:
-            provider: AWS
-            aws_access_key_id: topsecretkeyid
-            aws_secret_access_key: topsecretaccesskey
+          provider: AWS
+          aws_access_key_id: topsecretkeyid
+          aws_secret_access_key: topsecretaccesskey
         gitlab_rails_terraform_object_store_connection:
-            provider: AWS
-            aws_access_key_id: topsecretkeyid
-            aws_secret_access_key: topsecretaccesskey
+          provider: AWS
+          aws_access_key_id: topsecretkeyid
+          aws_secret_access_key: topsecretaccesskey
         gitlab_rails_packages_object_store_connection:
-            provider: AWS
-            aws_access_key_id: topsecretkeyid
-            aws_secret_access_key: topsecretaccesskey
+          provider: AWS
+          aws_access_key_id: topsecretkeyid
+          aws_secret_access_key: topsecretaccesskey
         gitlab_rails_dependency_proxy_object_store_connection:
-            provider: AWS
-            aws_access_key_id: topsecretkeyid
-            aws_secret_access_key: topsecretaccesskey
+          provider: AWS
+          aws_access_key_id: topsecretkeyid
+          aws_secret_access_key: topsecretaccesskey
         gitlab_rails_ldap_servers:
-          main: # 'main' is the GitLab 'provider ID' of this LDAP server
+          # 'main' is the GitLab 'provider ID' of this LDAP server
+          main:
             label: 'LDAP'
             host: '_your_ldap_server'
             port: 389
@@ -468,8 +469,8 @@
           effective_io_concurrency: 1
           checkpoint_warning: "30s"
           effective_cache_size: "1MB"
-          shmmax:  17179869184 # or 4294967295
-          shmall:  4194304 # or 1048575
+          shmmax: 17179869184 # or 4294967295
+          shmall: 4194304 # or 1048575
           autovacuum: "on"
           log_autovacuum_min_duration: "-1"
           autovacuum_naptime: "1min"
@@ -531,11 +532,11 @@
           lazyfree_lazy_server_del: true
           replica_lazy_flush: true
         redis_rename_commands:
-            KEYS: VALUES
+          KEYS: VALUES
         redis_master_role:
           enable: true
-        #redis_replica_role:
-        #  enable: true
+#       redis_replica_role:
+#         enable: true
         web_server:
           external_users: []
           username: 'gitlab-www'
@@ -586,7 +587,15 @@
           gzip_http_version: "1.0"
           gzip_comp_level: "2"
           gzip_proxied: "any"
-          gzip_types: [ "text/plain", "text/css", "application/x-javascript", "text/xml", "application/xml", "application/xml+rss", "text/javascript", "application/json" ]
+          gzip_types:
+            - text/plain
+            - text/css
+            - application/x-javascript
+            - text/xml
+            - application/xml
+            - application/xml+rss
+            - text/javascript
+            - application/json
           keepalive_timeout: 65
           cache_max_size: '5000m'
           server_names_hash_bucket_size: 64
@@ -666,12 +675,15 @@
           dir: "/var/opt/gitlab/gitlab-pages"
           log_directory: "/var/log/gitlab/gitlab-pages"
           artifacts_server: true
-          #artifacts_server_url: nil # Defaults to external_url + '/api/v4'
+
+          # Defaults to external_url + '/api/v4'
+#         artifacts_server_url: nil
+
           artifacts_server_timeout: 10
           inplace_chroot: false
           metrics_address: ":9235"
-          tls_min_version: "ssl3"
-          tls_max_version: "tls1.2"
+          tls_min_version: ssl3
+          tls_max_version: tls1.2
           access_control: false
           gitlab_client_http_timeout: "10s"
           gitlab_client_jwt_expiry: "30s"
@@ -693,7 +705,6 @@
           dir: '/var/opt/gitlab/geo-postgresql'
           data_dir: '/var/opt/gitlab/geo-postgresql/data'
           sql_user_password: 'SQL_USER_PASSWORD_HASH'
-      
         pgbouncer:
           enable: false
           log_directory: '/var/log/gitlab/pgbouncer'
@@ -842,7 +853,7 @@
           log_directory: '/var/log/gitlab/consul'
           env_directory: '/opt/gitlab/etc/consul/env'
           monitoring_service_discovery: false
-          #node_name: nil
+          # node_name: nil
           script_directory: '/var/opt/gitlab/consul/scripts'
           services: []
         consul_env:
