@@ -1,11 +1,16 @@
 ---
 galaxy_info:
   author: Andrew Rothstein
-  description: gitlab community edition role
   company: BlackRock
-  license:
-    - MIT
-  min_ansible_version: 2.0
+  description: gitlab community edition role
+  galaxy_tags:
+    - git
+    - gitlab
+    - vcs
+    - scm
+  license: MIT
+  min_ansible_version: '2.0'
+  namespace: andrewrothstein
   platforms:
     - name: Debian
       versions:
@@ -13,14 +18,10 @@ galaxy_info:
         - bullseye
     - name: EL
       versions:
-        - 8
-        - 9
+        - '8'
+        - '9'
     - name: Ubuntu
       versions:
-        - focal
         - jammy
-  galaxy_tags:
-    - git
-    - gitlab
-    - vcs
-    - scm
+        - noble
+  role_name: gitlab

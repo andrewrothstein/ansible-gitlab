@@ -1,8 +1,8 @@
 ---
-- name: add RPM key...
+- name: Add RPM key...
   become: true
   become_user: root
   with_items: '{{ gitlab_key_urls }}'
-  rpm_key:
+  ansible.builtin.rpm_key:
     key: '{{ item }}'
     state: present

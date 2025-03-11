@@ -1,7 +1,8 @@
 ---
 # handlers file for gitlab
-- name: gitlab_reconfigure
+- name: Gitlab_reconfigure
   become: true
   become_user: root
   when: gitlab_enabled
-  command: gitlab-ctl reconfigure
+  ansible.builtin.command: gitlab-ctl reconfigure
+  changed_when: false

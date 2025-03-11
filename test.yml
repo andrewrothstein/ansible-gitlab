@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Testing andrewrothstein.gitlab
+  hosts: all
   vars:
     gitlab_enabled: false
   roles:

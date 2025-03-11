@@ -1,5 +1,5 @@
 ---
-gitlab_pkg_mgr: yum
+gitlab_pkg_mgr: dnf
 gitlab_pkg_ty: rpm
 gitlab_el_ver: '{{ ansible_distribution_major_version }}'
 gitlab_platform: x86_64

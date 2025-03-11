@@ -1,14 +1,14 @@
 ---
-- name: add APT key...
+- name: Add APT key...
   become: true
   become_user: root
   with_items: '{{ gitlab_key_urls }}'
-  apt_key:
+  ansible.builtin.apt_key:
     url: '{{ item }}'
     state: present
 
 - name: APT installing {{ gitlab_local_pkg }}...
   become: true
   become_user: root
-  apt:
+  ansible.builtin.apt:
     deb: '{{ gitlab_local_pkg }}'

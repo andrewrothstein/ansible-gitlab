@@ -1,67 +1,73 @@
 ---
-- include_role:
+- name: Installing andrewrothstein.curl
+  ansible.builtin.include_role:
     name: andrewrothstein.curl
-- include_role:
-    name: andrewrothstein.ca-certs
-- include_role:
+- name: Installing andrewrothstein.ca_certs
+  ansible.builtin.include_role:
+    name: andrewrothstein.ca_certs
+- name: Installing andrewrothstein.gpg
+  ansible.builtin.include_role:
     name: andrewrothstein.gpg
-- include_role:
+- name: Installing andrewrothstein.tls
+  ansible.builtin.include_role:
     name: andrewrothstein.tls
 
-- name: resolve platform specific vars
-  include_vars: '{{ item }}'
+- name: Resolve platform specific vars
+  ansible.builtin.include_vars: '{{ item }}'
   with_first_found:
     - files:
         - '{{ ansible_pkg_mgr }}.yml'
       paths:
         - '{{ role_path }}/vars'
 
-- name: install pkg deps...
+- name: Install pkg deps...
   become: true
   become_user: root
-  with_items: '{{ gitlab_os_dep_pkgs | default([]) }}'
-  package:
-    name: '{{ item }}'
+  ansible.builtin.package:
+    name: '{{ gitlab_os_dep_pkgs | default([]) }}'
     state: present
 
-- name: mkdir -p {{ gitlab_pkg_dir }}
+- name: Mkdir -p {{ gitlab_pkg_dir }}
   become: true
   become_user: root
-  file:
+  ansible.builtin.file:
     path: '{{ gitlab_pkg_dir }}'
-    mode: 0755
+    mode: '755'
     state: directory
 
-- name: looking for {{ gitlab_local_pkg }}...
+- name: Looking for {{ gitlab_local_pkg }}...
   become: true
-  stat:
+  ansible.builtin.stat:
     path: '{{ gitlab_local_pkg }}'
   changed_when: false
   register: gitlab_local_pkg_binary
 
-- when: not gitlab_local_pkg_binary.stat.exists
+- name: Downloading and installing gitlab
+  when: not gitlab_local_pkg_binary.stat.exists
   block:
-    - name: downloading {{ gitlab_pkg_url }}
+    - name: Downloading {{ gitlab_pkg_url }}
       become: true
       become_user: root
-      get_url:
+      ansible.builtin.get_url:
         url: '{{ gitlab_pkg_url }}'
         dest: '{{ gitlab_local_pkg }}'
-        mode: 0700
+        mode: '700'
         timeout: '{{ gitlab_download_timeout_seconds }}'
-    - include_tasks: '{{ ansible_pkg_mgr }}.yml'
+    - name: Installing with {{ ansible_pkg_mgr }}
+      ansible.builtin.include_tasks: '{{ ansible_pkg_mgr }}.yml'
 
-- when: gitlab_tls.enable
+- name: Configuring TLS...
+  when: gitlab_tls.enable
   block:
-    - name: mkdir -p {{ gitlab_tls_dir }}
+    - name: Mkdir -p {{ gitlab_tls_dir }}
       become: true
       become_user: root
-      file:
+      ansible.builtin.file:
         path: '{{ gitlab_tls_dir }}'
         state: directory
-        mode: 0755
-    - name: install keys/certs
-      include_role:
+        mode: '755'
+    - name: Install keys/certs
+      ansible.builtin.include_role:
         name: andrewrothstein.tls
       vars:
         tls_become: true
@@ -72,12 +78,12 @@
           owner: root
           grp: root
 
-- name: configure gitlab
+- name: Configure gitlab
   when: gitlab_config is defined
   become: true
   become_user: root
-  template:
+  ansible.builtin.template:
     src: gitlab.rb.j2
     dest: /etc/gitlab/gitlab.rb
-    mode: 0644
-  notify: gitlab_reconfigure
+    mode: '644'
+  notify: Gitlab_reconfigure
